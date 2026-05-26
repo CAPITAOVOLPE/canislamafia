@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoFloat Skins | Loja de Skins Premium de CS2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0c10;
+        }
+        .gaming-font {
+            font-family: 'Rajdhani', sans-serif;
+        }
+       
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0c10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2833;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff4e00;
+        }
+       
+        .glass-card {
+            background: rgba(17, 18, 23, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 78, 0, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(255, 78, 0, 0.15);
+        }
+    </style>
+</head>
+<body class="text-gray-200 overflow-x-hidden">
+
+   
+    <div id="admin-banner" class="hidden fixed top-0 left-0 w-full bg-red-600 text-white z-[100] text-center py-2 px-4 flex justify-between items-center text-xs font-bold shadow-lg">
+        <div class="flex items-center gap-2">
+            <span class="animate-pulse w-2 h-2 rounded-full bg-white"></span>
+            <span>MODO ADMINISTRADOR ATIVO — Você pode alterar qualquer skin diretamente no site</span>
+        </div>
+        <button onclick="logoutAdmin()" class="bg-black/40 hover:bg-black/60 px-3 py-1 rounded text-[10px] uppercase tracking-wider transition">
+            Sair do Admin
+        </button>
+    </div>
+
+    <header id="main-header" class="fixed top-0 left-0 w-full z-50 bg-[#0b0c10]/95 backdrop-blur-md border-b border-gray-800/60 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+          
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-[#ff4e00] to-[#ec9f05] flex items-center justify-center shadow-lg shadow-orange-500/20">
+                    <span class="gaming-font text-2xl font-bold text-black tracking-tighter">V</span>
+                </div>
+                <div>
+                    <span class="gaming-font text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 tracking-wider">NeoFloat</span>
+                    <span class="gaming-font text-sm text-[#ff4e00] font-semibold tracking-widest block -mt-1.5">SKINS</span>
+                </div>
+            </div>
+
+           
+            <nav class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#home" class="text-[#ff4e00] hover:text-white transition">Início</a>
+                <a href="#catalogo" class="hover:text-[#ff4e00] transition">Catálogo</a>
+                <a href="#personalizado" class="hover:text-[#ff4e00] transition">Pedido Personalizado</a>
+                <a href="#seguranca" class="hover:text-[#ff4e00] transition">Como Funciona</a>
+            </nav>
+
+            
+            <div class="flex items-center space-x-4">
+                <a href="#personalizado" class="hidden sm:inline-flex items-center justify-center px-4 py-2 text-xs font-bold uppercase tracking-wider text-black bg-gradient-to-r from-[#ff4e00] to-[#ec9f05] hover:opacity-90 rounded-md transition duration-200">
+                    Pedir Skin Específica
+                </a>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-white focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        
+        <div id="mobile-menu" class="hidden md:hidden bg-[#0d0e12] border-b border-gray-800 px-4 pt-2 pb-4 space-y-2">
+            <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 transition">Início</a>
+            <a href="#catalogo" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 transition">Catálogo</a>
+            <a href="#personalizado" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 transition">Pedido Personalizado</a>
+            <a href="#seguranca" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 transition">Como Funciona</a>
+            <a href="#personalizado" class="w-full text-center block px-3 py-2 rounded-md text-sm font-bold uppercase tracking-wider text-black bg-gradient-to-r from-[#ff4e00] to-[#ec9f05]">
+                Pedir Skin Específica
+            </a>
+        </div>
+    </header>
+
+   
+    <section id="home" class="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-orange-950/20 via-[#0b0c10] to-[#0b0c10]">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-[#ff4e00]/5 rounded-full filter blur-[100px] pointer-events-none"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-yellow-500/5 rounded-full filter blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center space-x-2 bg-orange-500/10 border border-orange-500/30 px-3 py-1 rounded-full">
+                    <span class="w-2 h-2 rounded-full bg-[#ff4e00] animate-pulse"></span>
+                    <span class="text-xs uppercase font-semibold text-orange-400 tracking-wider">Estoque Atualizado Diariamente</span>
+                </div>
+                <h1 class="gaming-font text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-none text-white">
+                    SUAS SKINS DE CS2 <br class="hidden sm:inline">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4e00] to-[#ec9f05]">EM UM SÓ LUGAR</span>
+                </h1>
+                <p class="text-gray-400 text-base sm:text-lg max-w-xl mx-auto lg:mx-0">
+                    O melhor catálogo de skins selecionadas a preços imbatíveis. Encontre sua próxima arma ou use nossa Encomenda Personalizada para conseguir qualquer item do jogo sob demanda!
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                    <a href="#catalogo" class="w-full sm:w-auto text-center px-8 py-4 font-bold rounded-lg text-black bg-gradient-to-r from-[#ff4e00] to-[#ec9f05] hover:shadow-lg hover:shadow-orange-500/20 transition duration-300 transform hover:-translate-y-0.5">
+                        Ver Armas à Venda
+                    </a>
+                    <a href="#personalizado" class="w-full sm:w-auto text-center px-8 py-4 font-bold rounded-lg border border-gray-700 bg-gray-950/50 hover:bg-gray-900 transition duration-300">
+                        Fazer Pedido sob Encomenda
+                    </a>
+                </div>
+
+                
+                <div class="grid grid-cols-3 gap-4 pt-8 border-t border-gray-800 max-w-md mx-auto lg:mx-0">
+                    <div>
+                        <p class="gaming-font text-3xl font-bold text-white">100%</p>
+                        <p class="text-xs text-gray-500 uppercase tracking-wider">Seguro via PIX</p>
+                    </div>
+                    <div>
+                        <p class="gaming-font text-3xl font-bold text-white">&lt; 15m</p>
+                        <p class="text-xs text-gray-500 uppercase tracking-wider">Tempo de Entrega</p>
+                    </div>
+                    <div>
+                        <p class="gaming-font text-3xl font-bold text-white">Ativo</p>
+                        <p class="text-xs text-gray-500 uppercase tracking-wider">Suporte Próprio</p>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div id="hero-featured-container" class="lg:col-span-5 relative flex justify-center">
+                
+            </div>
+        </div>
+    </section>
+
+    
+    <section id="catalogo" class="py-24 bg-[#0d0e13]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 space-y-6 md:space-y-0">
+                <div>
+                    <h2 class="gaming-font text-4xl font-extrabold tracking-wide text-white">NOSSO CATÁLOGO DE VENDAS</h2>
+                    <p class="text-gray-400 mt-2 max-w-xl">
+                        Explore as skins incríveis que temos em estoque para envio imediato para a sua conta Steam. Todas já no estado de desgaste ideal.
+                    </p>
+                </div>
+                
+                
+                <div class="flex flex-wrap items-center gap-3">
+                    <span class="text-xs font-semibold uppercase text-gray-500 tracking-wider">Ordenar por:</span>
+                    <select id="sort-select" onchange="sortSkins()" class="bg-[#171821] border border-gray-800 text-sm text-gray-300 px-3 py-1.5 rounded-lg focus:outline-none focus:border-[#ff4e00] transition">
+                        <option value="featured">Padrão</option>
+                        <option value="price-asc">Preço: Menor ao Maior</option>
+                        <option value="price-desc">Preço: Maior ao Menor</option>
+                    </select>
+                </div>
+            </div>
+
+            
+            <div class="flex flex-wrap gap-2 mb-8" id="category-filters">
+                <button onclick="filterCategory('all')" class="filter-btn active px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition duration-200 bg-[#ff4e00] text-black">Todas</button>
+                <button onclick="filterCategory('rifles')" class="filter-btn px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition duration-200 bg-[#171821] text-gray-400 hover:text-white hover:bg-gray-800">Rifles</button>
+                <button onclick="filterCategory('snipers')" class="filter-btn px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition duration-200 bg-[#171821] text-gray-400 hover:text-white hover:bg-gray-800">Snipers</button>
+                <button onclick="filterCategory('pistolas')" class="filter-btn px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition duration-200 bg-[#171821] text-gray-400 hover:text-white hover:bg-gray-800">Pistolas</button>
+                <button onclick="filterCategory('especiais')" class="filter-btn px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition duration-200 bg-[#171821] text-gray-400 hover:text-white hover:bg-gray-800">Facas & Luvas</button>
+            </div>
+
+            
+            <div id="skins-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+               
+            </div>
+        </div>
+    </section>
+
+    
+    <div id="skin-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-[#12131a] border border-gray-800 rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 relative flex flex-col">
+            
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white z-10 bg-gray-900/50 p-2 rounded-full">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+
+           
+            <div class="grid grid-cols-1 md:grid-cols-12">
+                
+                <div id="modal-visual" class="md:col-span-5 flex flex-col justify-center items-center p-6 bg-gradient-to-b from-[#1c1d27] to-[#0e0f14] relative min-h-[250px] md:min-h-auto">
+                    <div id="modal-glow" class="absolute w-40 h-40 rounded-full blur-3xl opacity-35 pointer-events-none"></div>
+                    <div id="modal-emoji" class="text-8xl relative z-10 transition duration-300 flex items-center justify-center"></div>
+                    <div id="modal-badge" class="absolute bottom-4 left-4 text-[9px] font-bold tracking-widest px-2 py-0.5 rounded text-white"></div>
+                </div>
+
+                
+                <div class="md:col-span-7 p-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div>
+                            <span id="modal-category" class="text-[10px] uppercase tracking-wider text-[#ff4e00] font-bold"></span>
+                            <h3 id="modal-title" class="gaming-font text-3xl font-extrabold text-white leading-tight"></h3>
+                            <p id="modal-subtitle" class="text-sm text-gray-400"></p>
+                            <p id="modal-description" class="text-xs text-gray-400 mt-2 border-l-2 border-[#ff4e00] pl-2 bg-white/5 py-1.5 rounded-r"></p>
+                        </div>
+
+                        
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs text-gray-400">
+                                <span>Float da Skin (Desgaste)</span>
+                                <span id="modal-float" class="font-bold text-white"></span>
+                            </div>
+                            <div class="relative w-full h-2 bg-gray-800 rounded-full overflow-hidden mt-1">
+                                <div id="modal-float-bar" class="absolute h-full bg-gradient-to-r from-green-500 via-yellow-500 to-red-500" style="width: 100%"></div>
+                                <div id="modal-float-pointer" class="absolute top-0 w-1.5 h-full bg-white shadow-md" style="left: 0%"></div>
+                            </div>
+                            <div class="flex justify-between text-[9px] text-gray-500 uppercase tracking-widest pt-1">
+                                <span>FN</span>
+                                <span>MW</span>
+                                <span>FT</span>
+                                <span>WW</span>
+                                <span>BS</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 text-xs border-y border-gray-800/80 py-3">
+                            <div>
+                                <span class="text-gray-500 block uppercase">Disponibilidade</span>
+                                <span class="text-green-400 font-semibold flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full inline-block animate-ping"></span> Disponível
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500 block uppercase">Envio</span>
+                                <span class="text-white font-medium">Troca Steam Instantânea</span>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                    <div class="mt-6 space-y-3">
+                        <div class="flex justify-between items-center bg-[#171821] p-3 rounded-lg border border-gray-800/60">
+                            <span class="text-xs text-gray-400 uppercase">Preço de Venda</span>
+                            <span id="modal-price" class="gaming-font text-2xl font-black text-[#ff4e00]"></span>
+                        </div>
+                        <a id="modal-wa-btn" href="#" target="_blank" class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-center text-black font-extrabold bg-[#25D366] hover:opacity-90 transition duration-200 uppercase tracking-wider text-sm shadow-lg shadow-emerald-500/10">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.742.002-2.602-1.01-5.05-2.85-6.892-1.84-1.841-4.289-2.855-6.891-2.856-5.439 0-9.863 4.374-9.867 9.746-.001 1.761.464 3.479 1.349 4.98l-.98 3.585 3.676-.952zm11.396-7.75c-.274-.136-1.62-.8-1.87-.89-.252-.09-.436-.136-.618.137-.182.273-.706.89-.865 1.072-.16.182-.32.205-.594.069-.273-.136-1.157-.426-2.202-1.359-.815-.728-1.365-1.626-1.525-1.899-.16-.272-.017-.42.12-.556.122-.122.274-.319.41-.478.136-.16.182-.273.273-.455.09-.182.046-.341-.023-.478-.069-.136-.618-1.48-.846-2.026-.223-.543-.47-.468-.618-.475-.16-.008-.341-.01-.523-.01-.182 0-.477.069-.727.341-.25.273-.955.932-.955 2.273s.977 2.636 1.114 2.818c.137.182 1.922 2.934 4.659 4.114.65.281 1.157.449 1.553.575.654.208 1.248.179 1.719.108.524-.078 1.62-.663 1.847-1.302.228-.637.228-1.183.16-1.297-.07-.113-.25-.181-.523-.318z"/></svg>
+                            Comprar via WhatsApp
+                        </a>
+                        <p class="text-[10px] text-gray-400 text-center">Fale direto conosco para confirmar os dados de troca!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="admin-login-modal" class="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-[#12131a] border border-gray-800 rounded-2xl max-w-sm w-full p-6 relative shadow-2xl transform scale-95 transition-transform duration-300">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 rounded-lg bg-red-600 flex items-center justify-center mx-auto mb-3 shadow-lg shadow-red-600/20">
+                    <span class="gaming-font text-2xl font-bold text-black">A</span>
+                </div>
+                <h3 class="gaming-font text-2xl font-extrabold text-white">ACESSO RESTRITO</h3>
+                <p class="text-xs text-gray-400">Insira as credenciais administrativas para gerenciar o catálogo.</p>
+            </div>
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div class="space-y-1">
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400">Usuário</label>
+                    <input type="text" id="admin-user" required class="w-full bg-[#181922] border border-gray-800 rounded-lg py-2.5 px-4 text-white focus:outline-none focus:border-red-500 text-sm transition">
+                </div>
+                <div class="space-y-1">
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400">Senha</label>
+                    <input type="password" id="admin-pass" required class="w-full bg-[#181922] border border-gray-800 rounded-lg py-2.5 px-4 text-white focus:outline-none focus:border-red-500 text-sm transition">
+                </div>
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-3 px-4 rounded-xl font-bold uppercase tracking-wider text-black bg-red-600 hover:bg-red-500 transition duration-200 text-xs">
+                        Entrar no Painel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    
+    <div id="admin-edit-modal" class="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-[#12131a] border border-gray-800 rounded-2xl max-w-lg w-full p-6 relative shadow-2xl transform scale-95 transition-transform duration-300 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeEditModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <div class="mb-6">
+                <span class="text-[10px] font-bold text-red-500 uppercase tracking-widest">Painel Admin</span>
+                <h3 class="gaming-font text-2xl font-extrabold text-white">EDITAR SKIN</h3>
+            </div>
+            <form onsubmit="handleSaveEdit(event)" class="space-y-4">
+                <input type="hidden" id="edit-skin-id">
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400">Arma</label>
+                        <input type="text" id="edit-weapon" required class="w-full bg-[#181922] border border-gray-800 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-red-500 text-xs transition">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400">Nome da Skin</label>
+                        <input type="text" id="edit-name" required class="w-full bg-[#181922] border border-gray-800 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-red-500 text-xs transition">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400">Preço (R$)</label>
+                        <input type="number" step="0.01" id="edit-price" required class="w-full bg-[#181922] border border-gray-800 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-red-500 text-xs transition">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400">Float (Desgaste)</label>
+                        <input type="number" step="0.0001" min="0" max="1" id="edit-float" required class="w-full bg-[#181922] border border-gray-800 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-red-500 text-xs transition">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400">Raridade</label>
+                        <select id="edit-rarity" class="w-full bg-[#181922] border border-gray-800 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-red-500 text-xs transition">
+                            <option value="Restrita">Restrita (Roxa)</option>
+                            <option value="Classificada">Classificada (Rosa)</option>
+                            <option value="Oculta">Oculta (Vermelha)</option>
+                            <option value="Especial ★">Especial ★ (Faca/Luva)</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400">Categoria</label>
+                        <select id="edit-category" class="w-full bg-[#181922] border border-gray-800 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-red-500 text-xs transition">
+                            <option value="pistolas">Pistolas</option>
+                            <option value="rifles">Rifles</option>
+                            <option value="snipers">Snipers</option>
+                            <option value="especiais">Especiais (Faca / Luva)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400">Link da Foto (Deixe em branco para usar o Emoji Padrão)</label>
+                    <input type="url" id="edit-image" class="w-full bg-[#181922] border border-gray-800 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-red-500 text-xs placeholder-gray-600 transition" placeholder="https://exemplo.com/foto-da-skin.png">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400">Descrição da Arma</label>
+                    <textarea id="edit-desc" rows="3" required class="w-full bg-[#181922] border border-gray-800 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-red-500 text-xs transition"></textarea>
+                </div>
+
+                <div class="pt-2 flex gap-3">
+                    <button type="button" onclick="closeEditModal()" class="w-1/2 py-2 px-4 rounded-lg font-bold uppercase text-gray-400 bg-gray-900 hover:bg-gray-850 transition text-xs">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="w-1/2 py-2 px-4 rounded-lg font-bold uppercase text-black bg-red-600 hover:bg-red-500 transition text-xs">
+                        Salvar Alterações
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    
+    <section id="personalizado" class="py-24 relative overflow-hidden bg-[radial-gradient(circle_at_bottom_right,_var(--tw-gradient-stops))] from-yellow-950/10 via-[#0b0c10] to-[#0b0c10] border-t border-gray-900">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+                <div class="inline-flex items-center space-x-2 bg-orange-500/10 border border-orange-500/30 px-3 py-1 rounded-full">
+                    <span class="text-xs uppercase font-semibold text-orange-400 tracking-wider">Serviço de Encomendas</span>
+                </div>
+                <h2 class="gaming-font text-4xl sm:text-5xl font-extrabold text-white">PEDIDO PERSONALIZADO</h2>
+                <p class="text-gray-400">
+                    Procurando um float específico, adesivos especiais ou uma skin que não está no catálogo? Diga qual item deseja que nós encontramos e negociamos por você.
+                </p>
+            </div>
+
+            
+            <div class="bg-[#12131a]/80 backdrop-blur-md border border-gray-800 rounded-2xl p-6 sm:p-10 shadow-xl">
+                <form id="custom-request-form" onsubmit="submitCustomOrder(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                       
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-400">Seu Nome / Nick</label>
+                            <input type="text" id="req-name" required placeholder="Ex: Fallen" class="w-full bg-[#181922] border border-gray-800 rounded-lg py-3 px-4 text-white placeholder-gray-600 focus:outline-none focus:border-[#ff4e00] transition">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-400">WhatsApp para Contato</label>
+                            <input type="tel" id="req-phone" required placeholder="Ex: (11) 99999-9999" class="w-full bg-[#181922] border border-gray-800 rounded-lg py-3 px-4 text-white placeholder-gray-600 focus:outline-none focus:border-[#ff4e00] transition">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                       
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-400">Arma Desejada</label>
+                            <input type="text" id="req-weapon" required placeholder="Ex: AK-47, Faca Karambit..." class="w-full bg-[#181922] border border-gray-800 rounded-lg py-3 px-4 text-white placeholder-gray-600 focus:outline-none focus:border-[#ff4e00] transition">
+                        </div>
+                       
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-400">Nome da Skin (Acabamento)</label>
+                            <input type="text" id="req-skin" required placeholder="Ex: Imperatriz, Asiimov..." class="w-full bg-[#181922] border border-gray-800 rounded-lg py-3 px-4 text-white placeholder-gray-600 focus:outline-none focus:border-[#ff4e00] transition">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-400">Desgaste Esperado</label>
+                            <select id="req-wear" class="w-full bg-[#181922] border border-gray-800 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-[#ff4e00] transition">
+                                <option value="Testada em Campo (FT)">Testada em Campo (Field-Tested - FT) [Recomendado]</option>
+                                <option value="Nova em Folha (FN)">Nova em Folha (Factory New - FN)</option>
+                                <option value="Pouco Usada (MW)">Pouco Usada (Minimal Wear - MW)</option>
+                                <option value="Bem Desgastada (WW)">Bem Desgastada (Well-Worn - WW)</option>
+                                <option value="Veterana de Guerra (BS)">Veterana de Guerra (Battle-Scarred - BS)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-400">Orçamento Máximo Planejado (R$)</label>
+                            <input type="number" id="req-budget" placeholder="Ex: 150" class="w-full bg-[#181922] border border-gray-800 rounded-lg py-3 px-4 text-white placeholder-gray-600 focus:outline-none focus:border-[#ff4e00] transition">
+                        </div>
+                    </div>
+
+                   
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-400">Deseja algum Adesivo ou Float Baixo em especial?</label>
+                        <textarea id="req-notes" rows="3" placeholder="Ex: Gostaria de uma com adesivos dourados ou um float abaixo de 0.20 se possível..." class="w-full bg-[#181922] border border-gray-800 rounded-lg py-3 px-4 text-white placeholder-gray-600 focus:outline-none focus:border-[#ff4e00] transition"></textarea>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="w-full py-4 px-6 rounded-xl font-bold uppercase tracking-wider text-black bg-gradient-to-r from-[#ff4e00] to-[#ec9f05] hover:shadow-lg hover:shadow-orange-500/20 hover:scale-[1.01] transition duration-200">
+                            Enviar Encomenda via WhatsApp
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+   
+    <section id="seguranca" class="py-24 bg-[#0d0e13] border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+                <h2 class="gaming-font text-4xl font-extrabold tracking-wide text-white">PROCESSO DE COMPRA SEGURO</h2>
+                <p class="text-gray-400">Suas transações são protegidas de ponta a ponta, do pagamento no PIX à entrega na Steam.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="bg-[#12131a] border border-gray-800/80 rounded-2xl p-6 relative group">
+                    <div class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold mb-6 group-hover:bg-[#ff4e00] group-hover:text-black transition duration-300">
+                        01
+                    </div>
+                    <h3 class="gaming-font text-xl font-bold text-white mb-2">Escolha do Item</h3>
+                    <p class="text-gray-400 text-sm">
+                        Selecione qualquer uma de nossas armas prontas do catálogo ou preencha o formulário para fazer um pedido sob demanda.
+                    </p>
+                </div>
+
+              
+                <div class="bg-[#12131a] border border-gray-800/80 rounded-2xl p-6 relative group">
+                    <div class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold mb-6 group-hover:bg-[#ff4e00] group-hover:text-black transition duration-300">
+                        02
+                    </div>
+                    <h3 class="gaming-font text-xl font-bold text-white mb-2">Contato WhatsApp</h3>
+                    <p class="text-gray-400 text-sm">
+                        O clique irá redirecioná-lo direto para nós no WhatsApp. Confirmamos o envio da sua Trade Link e os dados de pagamento PIX de forma segura.
+                    </p>
+                </div>
+
+                
+                <div class="bg-[#12131a] border border-gray-800/80 rounded-2xl p-6 relative group">
+                    <div class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold mb-6 group-hover:bg-[#ff4e00] group-hover:text-black transition duration-300">
+                        03
+                    </div>
+                    <h3 class="gaming-font text-xl font-bold text-white mb-2">Troca Efetuada</h3>
+                    <p class="text-gray-400 text-sm">
+                        Após confirmação de recebimento do Pix, fazemos o envio imediato da oferta comercial de troca diretamente para a sua conta Steam em até 15 minutos!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <footer class="bg-[#0b0c10] border-t border-gray-900 py-12 text-sm text-gray-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="space-y-4 md:col-span-2">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded bg-gradient-to-tr from-[#ff4e00] to-[#ec9f05] flex items-center justify-center">
+                        <span class="gaming-font text-lg font-bold text-black">V</span>
+                    </div>
+                    <span class="gaming-font text-xl font-bold tracking-wider text-white">NeoFloat SKINS</span>
+                </div>
+                <p class="text-gray-400 max-w-sm">
+                    A forma mais fácil de comprar e encomendar suas armas preferidas de CS2 com preço baixo e segurança total.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-4 uppercase tracking-wider text-xs">Acesso Rápido</h4>
+                <ul class="space-y-2">
+                    <li><a href="#home" class="hover:text-white transition">Início</a></li>
+                    <li><a href="#catalogo" class="hover:text-white transition">Catálogo</a></li>
+                    <li><a href="#personalizado" class="hover:text-white transition">Encomenda</a></li>
+                    <li><a href="#" onclick="openLoginModal(event)" class="text-red-500/75 hover:text-red-400 transition font-bold flex items-center gap-1">🔒 Painel Admin</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-4 uppercase tracking-wider text-xs">Suporte</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white transition flex items-center gap-2"><span>💬</span> WhatsApp da Loja</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-gray-900 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+            <p>&copy; 2026 NeoFloat Skins. Todos os direitos reservados. Não possui afiliação com a Valve Corporation.</p>
+        </div>
+    </footer>
+
+   
+    <div id="toast" class="fixed bottom-5 right-5 z-[200] bg-[#12131a] border border-green-500 text-white px-5 py-3 rounded-lg shadow-xl flex items-center gap-3 hidden transform translate-y-10 opacity-0 transition-all duration-300">
+        <span id="toast-icon" class="text-green-500 text-lg">✓</span>
+        <span id="toast-message"></span>
+    </div>
+
+    
+    <script>
+       
+        
+        
+        const WHATSAPP_NUMBER = "554187943880"; 
+
+        
+        const defaultSkinsData = [
+            {
+                  id: 1,
+                weapon: "USP-S",
+                skinName: "Black Lotus",
+                description: "Gravação artística no silenciador com o desenho de uma flor de lótus negra em tons de azul e roxo profundo.",
+                rarity: "Classificada",
+                rarityColor: "bg-pink-600/20 text-pink-400 border-pink-500/30",
+                float: 0.22,
+                wearText: "Testada em Campo (FT)",
+                price: 25.00,
+                category: "pistolas",
+                emoji: "🪷",
+                imageUrl: "https://buffmarket.fp.ps.easebar.com/file/614aab0401825b5a2dcad283aCeIFWj502", 
+                gradient: "from-purple-900/30 via-indigo-950/20 to-pink-900/40"
+            },
+            {
+                id: 2,
+                weapon: "StatTrak™ USP-S",
+                skinName: "Ticket to Hell",
+                description: "Design moderno com grafismos brancos agressivos sobre uma base preta fosca. Conta suas eliminações com o painel digital.",
+                rarity: "Restrita",
+                rarityColor: "bg-purple-600/20 text-purple-400 border-purple-500/30",
+                float: 0.18,
+                wearText: "Testada em Campo (FT)",
+                price: 35.00,
+                category: "pistolas",
+                emoji: "🎟️",
+                imageUrl: "https://buffmarket.fp.ps.easebar.com/file/61ea216670d9a95c40307e55OFoA7X3K02",
+                gradient: "from-zinc-900/40 via-red-950/20 to-neutral-900/50"
+            },
+            {
+                id: 3,
+                weapon: "SSG 08",
+                skinName: "Fever Dream",
+                description: "Visual de grafite de rua agressivo e brilhante com cores azul, rosa e roxo contrastando em cima do chassi escuro.",
+                rarity: "Classificada",
+                rarityColor: "bg-pink-600/20 text-pink-400 border-pink-500/30",
+                float: 0.25,
+                wearText: "Testada em Campo (FT)",
+                price: 12.00,
+                category: "snipers",
+                emoji: "💤",
+                imageUrl: "https://buffmarket.fp.ps.easebar.com/file/5fca70471901a877d29a021dcDxkcLJw02",
+                gradient: "from-pink-600/30 via-cyan-900/20 to-indigo-950/40"
+            },
+            {
+                id: 4,
+                weapon: "M4A1-S",
+                skinName: "Black Lotus",
+                description: "A lendária lótus negra estende sua estampa por toda a estrutura do rifle principal dos CTs. Detalhes de flor incríveis.",
+                rarity: "Classificada",
+                rarityColor: "bg-pink-600/20 text-pink-400 border-pink-500/30",
+                float: 0.21,
+                wearText: "Testada em Campo (FT)",
+                price: 65.00,
+                category: "rifles",
+                emoji: "🌸",
+                imageUrl: "https://buffmarket.fp.ps.easebar.com/file/65c2f1adc59cf696629d9215TldmzRuA03",
+                gradient: "from-purple-900/30 via-indigo-950/20 to-pink-950/40"
+            },
+            {
+                id: 5,
+                weapon: "AK-47",
+                skinName: "Ice Coaled",
+                description: "Design esportivo ultra limpo com gradientes em verde brilhante e azul gelo. Um verdadeiro destaque para os rounds T.",
+                rarity: "Classificada",
+                rarityColor: "bg-pink-600/20 text-pink-400 border-pink-500/30",
+                float: 0.28,
+                wearText: "Testada em Campo (FT)",
+                price: 75.00,
+                category: "rifles",
+                emoji: "🧊",
+                imageUrl: "https://buffmarket.fp.ps.easebar.com/file/62bfb41a9781de6f0664cfc96Hregf2Z02",
+                gradient: "from-teal-600/30 via-emerald-950/20 to-cyan-950/40"
+            },
+            {
+                id: 6,
+                weapon: "AWP",
+                skinName: "Atheris",
+                description: "Design impressionante de uma cobra Atheris verde e azul se rastejando ao longo de toda a lateral da sniper mais temida do jogo.",
+                rarity: "Restrita",
+                rarityColor: "bg-purple-600/20 text-purple-400 border-purple-500/30",
+                float: 0.23,
+                wearText: "Testada em Campo (FT)",
+                price: 15.00,
+                category: "snipers",
+                emoji: "🐍",
+                imageUrl: "https://buffmarket.fp.ps.easebar.com/file/5fca06dd6793673eaf2fb26bZishKSDe02",
+                gradient: "from-emerald-600/20 via-zinc-900/20 to-teal-950/40"
+            },
+            {
+                id: 7,
+                weapon: "Desert Eagle",
+                skinName: "Light Rail",
+                description: "Visual futurista de acelerador eletromagnético, com tons de bronze que refletem a luz no mapa com perfeição.",
+                rarity: "Restrita",
+                rarityColor: "bg-purple-600/20 text-purple-400 border-purple-500/30",
+                float: 0.19,
+                wearText: "Testada em Campo (FT)",
+                price: 10.00,
+                category: "pistolas",
+                emoji: "⚡",
+                imageUrl: "https://buffmarket.fp.ps.easebar.com/file/5fca6cd667936731bb1e99b7mwjZIVIp02",
+                gradient: "from-amber-600/20 via-zinc-900/20 to-yellow-950/30"
+            },
+            {
+                id: 8,
+                weapon: "Glock-18",
+                skinName: "Water Elemental",
+                description: "Um elemental de água cobrindo toda a base pintada de vermelho fosco de um dos pistols mais tradicionais do jogo.",
+                rarity: "Classificada",
+                rarityColor: "bg-pink-600/20 text-pink-400 border-pink-500/30",
+                float: 0.24,
+                wearText: "Testada em Campo (FT)",
+                price: 20.00,
+                category: "pistolas",
+                emoji: "💧",
+                imageUrl: "https://buffmarket.fp.ps.easebar.com/file/5fca06ab6793673eaf2fb2349b6Yodh302",
+                gradient: "from-red-600/30 via-blue-900/20 to-blue-950/40"
+            },
+            {
+                id: 9,
+                weapon: "M4A4",
+                skinName: "Spider Lily",
+                description: "Uma flor lírio-da-aranha vermelha brilhante estampada sobre o corpo de metal fosco militar clássico.",
+                rarity: "Restrita",
+                rarityColor: "bg-purple-600/20 text-purple-400 border-purple-500/30",
+                float: 0.20,
+                wearText: "Testada em Campo (FT)",
+                price: 18.00,
+                category: "rifles",
+                emoji: "🕸️",
+                imageUrl: "https://buffmarket.fp.ps.easebar.com/file/614aaece1b74121575672ce5Oi272iIo02",
+                gradient: "from-red-600/20 via-indigo-950/20 to-neutral-900/40"
+            },
+            {
+                id: 10,
+                weapon: "Faca Gut",
+                skinName: "Freehand",
+                description: "Lâmina com desenhos de arte de rua e graffiti feitos à mão sobre um belo fundo roxo escuro. Um item de colecionador sensacional.",
+                rarity: "Especial ★",
+                rarityColor: "bg-yellow-600/20 text-yellow-400 border-yellow-500/30",
+                float: 0.16,
+                wearText: "Testada em Campo (FT)",
+                price: 850.00,
+                category: "especiais",
+                emoji: "🔪",
+                imageUrl: "https://buffmarket.fp.ps.easebar.com/file/5fca09fb1901a87129e54f22hBjmvpam02",
+                gradient: "from-purple-900/30 via-violet-950/20 to-zinc-950/40"
+            }
+        ];
+
+        
+        let skinsData = JSON.parse(localStorage.getItem('NeoFloat_skins_data')) || defaultSkinsData;
+        let activeCategory = "all";
+        let isAdmin = false;
+
+       
+        const _kUser = [103, 111, 118, 101, 114, 110, 97, 100, 111, 114, 48, 49]; 
+        const _kPass = [56, 57, 99, 116, 116, 114, 100, 117, 115, 116];        
+
+        function checkCredentials(u, p) {
+            if (u.length !== _kUser.length || p.length !== _kPass.length) return false;
+            for (let i = 0; i < u.length; i++) {
+                if (u.charCodeAt(i) !== _kUser[i]) return false;
+            }
+            for (let i = 0; i < p.length; i++) {
+                if (p.charCodeAt(i) !== _kPass[i]) return false;
+            }
+            return true;
+        }
+
+        
+        function renderSkins(data = skinsData) {
+            const grid = document.getElementById("skins-grid");
+            grid.innerHTML = "";
+
+            data.forEach(skin => {
+                const card = document.createElement("div");
+                card.className = "glass-card rounded-2xl p-5 flex flex-col justify-between overflow-hidden group relative";
+                
+                const priceFormatted = skin.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+                
+                const visualHTML = skin.imageUrl ? 
+                    `<img src="${skin.imageUrl}" alt="${skin.weapon}" class="h-24 w-auto max-w-full object-contain relative z-10 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:scale-110 transition duration-300" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'text-5xl relative z-10\'>${skin.emoji || '🔫'}</span>';">` :
+                    `<span class="text-5xl group-hover:scale-110 transition duration-300 relative z-10">${skin.emoji || '🔫'}</span>`;
+
+                
+                const adminBtnHTML = isAdmin ? `
+                    <button onclick="openEditModal(${skin.id}, event)" class="absolute top-3 right-3 z-20 bg-red-600 hover:bg-red-500 text-black font-extrabold text-[10px] uppercase py-1 px-2.5 rounded shadow-lg transition">
+                        Editar
+                    </button>
+                ` : '';
+
+                card.innerHTML = `
+                    ${adminBtnHTML}
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-start">
+                            <span class="text-[9px] font-bold tracking-widest uppercase border px-1.5 py-0.5 rounded ${skin.rarityColor}">
+                                ${skin.rarity}
+                            </span>
+                            <span class="text-[10px] text-gray-500 font-mono">FT: ${skin.float}</span>
+                        </div>
+
+                        <div class="relative h-32 rounded-xl bg-gradient-to-b from-[#161720] to-[#0d0e13] flex items-center justify-center overflow-hidden border border-gray-900">
+                            <div class="absolute inset-0 bg-gradient-to-tr ${skin.gradient || 'from-zinc-900/45 to-zinc-950/45'} opacity-50 z-0 pointer-events-none"></div>
+                            ${visualHTML}
+                        </div>
+
+                        <div>
+                            <span class="text-xs text-gray-500 uppercase font-bold tracking-wider">${skin.weapon}</span>
+                            <h3 class="gaming-font text-lg font-bold text-white -mt-0.5 tracking-wide group-hover:text-[#ff4e00] transition">${skin.skinName}</h3>
+                            <p class="text-xs text-gray-400 font-medium">${skin.wearText || 'Testada em Campo (FT)'}</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 pt-4 border-t border-gray-900 flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-gray-500 block uppercase">Preço</span>
+                            <span class="gaming-font text-md font-bold text-white">${priceFormatted}</span>
+                        </div>
+                        <button onclick="openModal(${skin.id})" class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-black bg-gradient-to-r from-gray-200 to-white hover:from-[#ff4e00] hover:to-[#ec9f05] rounded-md transition duration-200">
+                            Detalhes
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        
+        function filterCategory(category) {
+            activeCategory = category;
+            
+            const buttons = document.querySelectorAll("#category-filters button");
+            buttons.forEach(btn => {
+                btn.className = "filter-btn px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition duration-200 bg-[#171821] text-gray-400 hover:text-white hover:bg-gray-800";
+            });
+
+            const activeBtn = event.currentTarget || buttons[0];
+            activeBtn.className = "filter-btn active px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition duration-200 bg-[#ff4e00] text-black";
+
+            applyFiltersAndSort();
+        }
+
+        
+        function sortSkins() {
+            applyFiltersAndSort();
+        }
+
+        function applyFiltersAndSort() {
+            let filtered = [...skinsData];
+
+            if (activeCategory !== "all") {
+                filtered = filtered.filter(s => s.category === activeCategory);
+            }
+
+            const sortBy = document.getElementById("sort-select").value;
+            if (sortBy === "price-asc") {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (sortBy === "price-desc") {
+                filtered.sort((a, b) => b.price - a.price);
+            }
+
+            renderSkins(filtered);
+        }
+
+        
+        function openModal(id) {
+            const skin = skinsData.find(s => s.id === id);
+            if (!skin) return;
+
+            const modal = document.getElementById("skin-modal");
+            
+            document.getElementById("modal-category").innerText = skin.rarity;
+            document.getElementById("modal-title").innerText = skin.weapon;
+            document.getElementById("modal-subtitle").innerText = skin.skinName;
+            document.getElementById("modal-description").innerText = skin.description || "Descrição em breve.";
+            document.getElementById("modal-float").innerText = skin.float;
+            document.getElementById("modal-price").innerText = skin.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+            const modalEmojiContainer = document.getElementById("modal-emoji");
+            if (skin.imageUrl) {
+                modalEmojiContainer.innerHTML = `<img src="${skin.imageUrl}" alt="${skin.skinName}" class="max-h-40 w-auto object-contain relative z-10 drop-shadow-[0_12px_24px_rgba(0,0,0,0.6)]" onerror="this.onerror=null; this.innerHTML='<span class=\'text-8xl\'>${skin.emoji || '🔫'}</span>';">`;
+            } else {
+                modalEmojiContainer.innerHTML = skin.emoji || '🔫';
+            }
+
+            const modalGlow = document.getElementById("modal-glow");
+            modalGlow.className = `absolute w-40 h-40 rounded-full blur-3xl opacity-40 pointer-events-none bg-gradient-to-tr ${skin.gradient || 'from-orange-500/20 to-yellow-500/20'}`;
+
+            const badge = document.getElementById("modal-badge");
+            badge.innerText = skin.wearText || "Testada em Campo (FT)";
+            badge.className = `absolute bottom-4 left-4 text-[9px] font-bold tracking-widest px-2 py-0.5 rounded border ${skin.rarityColor}`;
+
+            const pointer = document.getElementById("modal-float-pointer");
+            const percentage = skin.float * 100;
+            pointer.style.left = `${percentage}%`;
+
+            const waButton = document.getElementById("modal-wa-btn");
+            const textTemplate = `Olá! Estava navegando na loja e quero comprar o seguinte item:\n\n*Arma:* ${skin.weapon}\n*Skin:* ${skin.skinName}\n*Estado:* ${skin.wearText || 'Testada em Campo (FT)'}\n*Float:* ${skin.float}\n*Preço:* ${skin.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}\n\nComo fazemos com a entrega do item?`;
+            waButton.href = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(textTemplate)}`;
+
+            modal.classList.remove("hidden");
+            setTimeout(() => {
+                modal.classList.remove("opacity-0");
+                modal.querySelector(".transform").classList.remove("scale-95");
+                modal.querySelector(".transform").classList.add("scale-100");
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("skin-modal");
+            modal.classList.add("opacity-0");
+            modal.querySelector(".transform").classList.remove("scale-100");
+            modal.querySelector(".transform").classList.add("scale-95");
+            setTimeout(() => {
+                modal.classList.add("hidden");
+            }, 300);
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById("skin-modal");
+            const loginModal = document.getElementById("admin-login-modal");
+            const editModal = document.getElementById("admin-edit-modal");
+            if (event.target === modal) {
+                closeModal();
+            } else if (event.target === loginModal) {
+                closeLoginModal();
+            } else if (event.target === editModal) {
+                closeEditModal();
+            }
+        }
+
+        
+        function submitCustomOrder(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("req-name").value;
+            const phone = document.getElementById("req-phone").value;
+            const weapon = document.getElementById("req-weapon").value;
+            const skin = document.getElementById("req-skin").value;
+            const wear = document.getElementById("req-wear").value;
+            const budget = document.getElementById("req-budget").value || "A combinar";
+            const notes = document.getElementById("req-notes").value || "Nenhuma";
+
+            const message = `🔥 *NOVO PEDIDO PERSONALIZADO* 🔥\n\n` + 
+                            `👤 *Cliente:* ${name}\n` +
+                            `📞 *WhatsApp:* ${phone}\n\n` +
+                            `🔫 *Arma Procurada:* ${weapon}\n` +
+                            `🎨 *Skin:* ${skin}\n` +
+                            `💎 *Desgaste Mínimo:* ${wear}\n` +
+                            `💰 *Orçamento Máx:* R$ ${budget}\n\n` +
+                            `📝 *Detalhes/Notas:* ${notes}`;
+
+            const url = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(message)}`;
+            
+            showToast("Redirecionando sua encomenda para o WhatsApp!", "✓", "border-green-500 text-green-500");
+
+            setTimeout(() => {
+                window.open(url, '_blank');
+            }, 1500);
+        }
+
+        function showToast(message, icon = "✓", classes = "border-green-500 text-green-500") {
+            const toast = document.getElementById("toast");
+            const toastIcon = document.getElementById("toast-icon");
+            const toastMsg = document.getElementById("toast-message");
+
+            toastIcon.innerText = icon;
+            toastMsg.innerText = message;
+            
+            
+            toast.className = `fixed bottom-5 right-5 z-[200] bg-[#12131a] border px-5 py-3 rounded-lg shadow-xl flex items-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 ${classes}`;
+
+            toast.classList.remove("hidden");
+            setTimeout(() => {
+                toast.classList.remove("opacity-0", "translate-y-10");
+            }, 50);
+
+            setTimeout(() => {
+                toast.classList.add("opacity-0", "translate-y-10");
+                setTimeout(() => {
+                    toast.classList.add("hidden");
+                }, 300);
+            }, 4000);
+        }
+
+        
+        const menuBtn = document.getElementById("mobile-menu-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+        menuBtn.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+        });
+
+        mobileMenu.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                mobileMenu.classList.add("hidden");
+            });
+        });
+
+        
+        function renderHeroFeatured() {
+            const featuredSkin = skinsData.find(s => s.id === 3) || skinsData[0];
+            if (!featuredSkin) return;
+
+            const container = document.getElementById("hero-featured-container");
+            if (!container) return;
+
+            const priceFormatted = featuredSkin.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+            const visualHTML = featuredSkin.imageUrl ? 
+                `<img src="${featuredSkin.imageUrl}" alt="${featuredSkin.weapon}" class="h-28 w-auto object-contain relative z-10 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:scale-110 transition duration-300" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'text-7xl group-hover:scale-110 transition duration-300\'>${featuredSkin.emoji || '🔫'}</span>';">` :
+                `<span class="text-7xl group-hover:scale-110 transition duration-300">${featuredSkin.emoji || '🔫'}</span>`;
+
+            
+            const editHeroBtnHTML = isAdmin ? `
+                <button onclick="openEditModal(${featuredSkin.id}, event)" class="absolute top-4 right-4 z-20 bg-red-600 hover:bg-red-500 text-black font-extrabold text-[10px] uppercase py-1.5 px-3 rounded shadow-lg transition">
+                    Editar Destaque
+                </button>
+            ` : '';
+
+            container.innerHTML = `
+                <div class="relative w-full max-w-[360px] aspect-[4/5] rounded-2xl bg-gradient-to-b from-[#1a1b23] to-[#0e0f14] p-6 border border-gray-800/80 shadow-2xl flex flex-col justify-between overflow-hidden group">
+                    <div class="absolute inset-0 bg-gradient-to-tr ${featuredSkin.gradient || 'from-pink-600/30 to-indigo-950/40'} opacity-50 z-0 pointer-events-none"></div>
+                    
+                    ${editHeroBtnHTML}
+
+                    <div onclick="openModal(${featuredSkin.id})" class="cursor-pointer h-full flex flex-col justify-between relative z-10">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-[10px] font-bold tracking-widest uppercase border px-2 py-0.5 rounded ${featuredSkin.rarityColor}">
+                                    ${featuredSkin.rarity}
+                                </span>
+                            </div>
+                            <span class="text-xs font-semibold text-gray-400">Float: ${featuredSkin.float}</span>
+                        </div>
+
+                        <div class="relative my-6 flex items-center justify-center h-40">
+                            <div class="absolute w-44 h-44 rounded-full bg-gradient-to-tr ${featuredSkin.gradient || 'from-pink-650/20 to-purple-950/20'} blur-xl group-hover:scale-125 transition duration-500"></div>
+                            <div class="relative w-full h-full flex flex-col items-center justify-center text-center">
+                                ${visualHTML}
+                                <span class="mt-4 block font-bold tracking-wider text-xs text-gray-500 uppercase">${featuredSkin.weapon} | ${featuredSkin.skinName}</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <p class="text-xs text-[#ff4e00] uppercase tracking-wider font-bold">Destaque do Catálogo</p>
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <h3 class="gaming-font text-xl font-bold text-white">${featuredSkin.weapon}</h3>
+                                    <p class="text-sm text-gray-400 -mt-1">${featuredSkin.skinName}</p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-xs text-gray-500 block">Preço</span>
+                                    <span class="gaming-font text-xl font-extrabold text-[#ff4e00]">${priceFormatted}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        
+        function openLoginModal(event) {
+            if (event) event.preventDefault();
+            const modal = document.getElementById("admin-login-modal");
+            modal.classList.remove("hidden");
+            setTimeout(() => {
+                modal.classList.remove("opacity-0");
+                modal.querySelector(".transform").classList.remove("scale-95");
+                modal.querySelector(".transform").classList.add("scale-100");
+            }, 10);
+        }
+
+        function closeLoginModal() {
+            const modal = document.getElementById("admin-login-modal");
+            modal.classList.add("opacity-0");
+            modal.querySelector(".transform").classList.remove("scale-100");
+            modal.querySelector(".transform").classList.add("scale-95");
+            setTimeout(() => {
+                modal.classList.add("hidden");
+                document.getElementById("admin-user").value = "";
+                document.getElementById("admin-pass").value = "";
+            }, 300);
+        }
+
+        
+        function handleLogin(event) {
+            event.preventDefault();
+            const u = document.getElementById("admin-user").value;
+            const p = document.getElementById("admin-pass").value;
+
+            if (checkCredentials(u, p)) {
+                isAdmin = true;
+                closeLoginModal();
+                showToast("Acesso concedido! Modo Administrador ativado.", "🔒", "border-red-500 text-red-500");
+                
+                
+                document.getElementById("admin-banner").classList.remove("hidden");
+                document.getElementById("main-header").style.top = "36px";
+                
+                
+                renderSkins();
+                renderHeroFeatured();
+            } else {
+                showToast("Usuário ou Senha incorretos!", "❌", "border-red-600 text-red-500");
+            }
+        }
+
+        
+        function logoutAdmin() {
+            isAdmin = false;
+            document.getElementById("admin-banner").classList.add("hidden");
+            document.getElementById("main-header").style.top = "0px";
+            
+            showToast("Sessão finalizada. Modo administrador desativado.", "✓", "border-gray-500 text-gray-400");
+            
+            renderSkins();
+            renderHeroFeatured();
+        }
+
+        
+        function openEditModal(id, event) {
+            if (event) event.stopPropagation(); 
+            
+            const skin = skinsData.find(s => s.id === id);
+            if (!skin) return;
+
+            document.getElementById("edit-skin-id").value = skin.id;
+            document.getElementById("edit-weapon").value = skin.weapon;
+            document.getElementById("edit-name").value = skin.skinName;
+            document.getElementById("edit-price").value = skin.price;
+            document.getElementById("edit-float").value = skin.float;
+            document.getElementById("edit-rarity").value = skin.rarity;
+            document.getElementById("edit-category").value = skin.category;
+            document.getElementById("edit-image").value = skin.imageUrl || "";
+            document.getElementById("edit-desc").value = skin.description || "";
+
+            const modal = document.getElementById("admin-edit-modal");
+            modal.classList.remove("hidden");
+            setTimeout(() => {
+                modal.classList.remove("opacity-0");
+                modal.querySelector(".transform").classList.remove("scale-95");
+                modal.querySelector(".transform").classList.add("scale-100");
+            }, 10);
+        }
+
+        function closeEditModal() {
+            const modal = document.getElementById("admin-edit-modal");
+            modal.classList.add("opacity-0");
+            modal.querySelector(".transform").classList.remove("scale-100");
+            modal.querySelector(".transform").classList.add("scale-95");
+            setTimeout(() => {
+                modal.classList.add("hidden");
+            }, 300);
+        }
+
+        
+        function handleSaveEdit(event) {
+            event.preventDefault();
+            
+            const id = parseInt(document.getElementById("edit-skin-id").value);
+            const skinIndex = skinsData.findIndex(s => s.id === id);
+            if (skinIndex === -1) return;
+
+            const rarity = document.getElementById("edit-rarity").value;
+            let rarityColor = "bg-purple-600/20 text-purple-400 border-purple-500/30";
+            let gradient = "from-purple-900/30 via-indigo-950/20 to-pink-900/40";
+            
+            if (rarity === "Classificada") {
+                rarityColor = "bg-pink-600/20 text-pink-400 border-pink-500/30";
+                gradient = "from-pink-600/30 via-cyan-900/20 to-indigo-950/40";
+            } else if (rarity === "Oculta") {
+                rarityColor = "bg-red-600/20 text-red-400 border-red-500/30";
+                gradient = "from-red-650/30 via-zinc-900/20 to-neutral-900/50";
+            } else if (rarity === "Especial ★") {
+                rarityColor = "bg-yellow-600/20 text-yellow-400 border-yellow-500/30";
+                gradient = "from-purple-900/30 via-violet-950/20 to-zinc-950/40";
+            }
+
+            
+            skinsData[skinIndex].weapon = document.getElementById("edit-weapon").value;
+            skinsData[skinIndex].skinName = document.getElementById("edit-name").value;
+            skinsData[skinIndex].price = parseFloat(document.getElementById("edit-price").value);
+            skinsData[skinIndex].float = parseFloat(document.getElementById("edit-float").value);
+            skinsData[skinIndex].rarity = rarity;
+            skinsData[skinIndex].rarityColor = rarityColor;
+            skinsData[skinIndex].gradient = gradient;
+            skinsData[skinIndex].category = document.getElementById("edit-category").value;
+            skinsData[skinIndex].imageUrl = document.getElementById("edit-image").value;
+            skinsData[skinIndex].description = document.getElementById("edit-desc").value;
+
+            
+            localStorage.setItem('NeoFloat_skins_data', JSON.stringify(skinsData));
+
+           
+            closeEditModal();
+            showToast("Skin atualizada com sucesso no banco de dados!", "✓", "border-green-500 text-green-500");
+            
+            renderSkins();
+            renderHeroFeatured();
+        }
+
+        window.onload = function() {
+            renderSkins();
+            renderHeroFeatured();
+        }
+    </script>
+</body>
+</html>
