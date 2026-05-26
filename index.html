@@ -543,7 +543,38 @@
         <span id="toast-message"></span>
     </div>
 
-    
+    <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+    getDatabase,
+    ref,
+    set,
+    onValue
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAerJxRg8JF2W2DLLCLrI7d9pIFNprMQl0",
+  authDomain: "chatcat-73364.firebaseapp.com",
+  databaseURL: "https://chatcat-73364-default-rtdb.firebaseio.com",
+  projectId: "chatcat-73364",
+  storageBucket: "chatcat-73364.firebasestorage.app",
+  messagingSenderId: "645503800079",
+  appId: "1:645503800079:web:850860c42bec8a73e0e47a",
+  measurementId: "G-1K6TJ1G44X"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase(app);
+
+window.firebaseDB = db;
+window.firebaseFunctions = {
+    ref,
+    set,
+    onValue
+};
+</script>
     <script>
        
         
@@ -705,7 +736,7 @@
         ];
 
         
-        let skinsData = JSON.parse(localStorage.getItem('NeoFloat_skins_data')) || defaultSkinsData;
+        let skinsData = [];
         let activeCategory = "all";
         let isAdmin = false;
 
@@ -724,7 +755,34 @@
             return true;
         }
 
-        
+        async function saveFirebaseSkins() {
+    const { ref, set } = window.firebaseFunctions;
+
+    await set(
+        ref(window.firebaseDB, 'skinsData'),
+        skinsData
+    );
+}
+
+function loadFirebaseRealtime() {
+    const { ref, onValue } = window.firebaseFunctions;
+
+    const skinsRef = ref(window.firebaseDB, 'skinsData');
+
+    onValue(skinsRef, (snapshot) => {
+        const data = snapshot.val();
+
+        if (data) {
+            skinsData = data;
+        } else {
+            skinsData = defaultSkinsData;
+            saveFirebaseSkins();
+        }
+
+        renderSkins();
+        renderHeroFeatured();
+    });
+}
         function renderSkins(data = skinsData) {
             const grid = document.getElementById("skins-grid");
             grid.innerHTML = "";
@@ -1148,7 +1206,7 @@
             skinsData[skinIndex].description = document.getElementById("edit-desc").value;
 
             
-            localStorage.setItem('NeoFloat_skins_data', JSON.stringify(skinsData));
+            
 
            
             closeEditModal();
@@ -1158,9 +1216,9 @@
             renderHeroFeatured();
         }
 
-        window.onload = function() {
-            renderSkins();
-            renderHeroFeatured();
+       window.onload = function() {
+    loadFirebaseRealtime();
+
         }
     </script>
 </body>
