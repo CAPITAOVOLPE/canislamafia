@@ -1,1 +1,1544 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Meta 68kg - Ganho de Massa e Força</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        obsidian: '#0a0a0d',
+                        carddark: '#121218',
+                        wine: {
+                            950: '#1f060e',
+                            900: '#3b0a18',
+                            800: '#5c1125',
+                            700: '#7f1d1d',
+                        },
+                        neon: {
+                            orange: '#ff5500',
+                            purple: '#8b5cf6',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0d;
+            color: #f4f4f6;
+            -webkit-tap-highlight-color: transparent;
+            padding-bottom: 88px;
+        }
+
+        .tactical-card {
+            background: linear-gradient(165deg, #15151d 0%, #101016 100%);
+            border: 1px solid rgba(139, 92, 246, 0.22);
+            box-shadow: 0 10px 30px -6px rgba(0, 0, 0, 0.75);
+        }
+
+        .wine-accent-card {
+            background: linear-gradient(135deg, #3b0a18 0%, #19070f 65%, #121218 100%);
+            border: 1px solid rgba(255, 85, 0, 0.35);
+            box-shadow: 0 10px 32px -6px rgba(127, 29, 29, 0.45);
+        }
+
+        .exercise-checkbox:checked + div {
+            opacity: 0.6;
+        }
+        .exercise-checkbox:checked + div .ex-title {
+            text-decoration: line-through;
+            color: #9ca3af;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.25s ease-out forwards;
+        }
+
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 12px);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-orange-500 selection:text-white">
+
+    <!-- =========================================================================
+         CABEÇALHO FIXO MOBILE-FIRST
+         ========================================================================= -->
+    <header class="bg-[#0a0a0d]/95 backdrop-blur-md border-b border-wine-900/80 sticky top-0 z-30">
+        <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#ff5500] via-wine-800 to-[#8b5cf6] flex items-center justify-center text-white shadow-lg shadow-orange-600/25 border border-orange-400/30">
+                    <i class="fa-solid fa-dumbbell text-base"></i>
+                </div>
+                <div>
+                    <h1 class="font-black text-base sm:text-lg tracking-tight text-white leading-none">
+                        Meta <span class="text-[#ff5500]">68kg</span>
+                    </h1>
+                    <p class="text-[11px] text-zinc-400 font-medium mt-0.5">1,71m • Base: 54,0kg • Alvo: +14kg</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <!-- Status de Sincronização Firebase -->
+                <div id="sync-status-badge" class="flex items-center gap-1.5 bg-zinc-900 border border-zinc-800 px-2.5 py-1.5 rounded-full transition-colors" title="Status da sincronização na nuvem">
+                    <span id="sync-status-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                    <span id="sync-status-text" class="text-[10px] font-bold text-zinc-300">Conectando...</span>
+                </div>
+
+                <!-- Contador de Treinos -->
+                <div class="flex items-center gap-1.5 bg-wine-950 border border-orange-500/30 px-2.5 py-1.5 rounded-full">
+                    <i class="fa-solid fa-bolt text-[#ff5500] text-xs"></i>
+                    <span id="header-streak-text" class="text-xs font-extrabold text-orange-300">0 treinos</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- =========================================================================
+         CONTEÚDO PRINCIPAL
+         ========================================================================= -->
+    <main class="max-w-xl w-full mx-auto px-4 pt-4 space-y-4 flex-grow">
+
+        <!-- =====================================================================
+             BLOCO SUPERIOR: PAINEL DE HIPERTROFIA + ATUALIZAÇÃO RÁPIDA DE PESO
+             ===================================================================== -->
+        <section aria-label="Painel de Progresso e Atualização de Peso" class="space-y-3">
+            
+            <!-- Cartão Principal de Evolução -->
+            <div class="wine-accent-card rounded-3xl p-4 sm:p-5 relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 w-36 h-36 rounded-full bg-[#8b5cf6]/10 blur-2xl pointer-events-none"></div>
+                <div class="absolute -left-10 -bottom-10 w-36 h-36 rounded-full bg-[#ff5500]/10 blur-2xl pointer-events-none"></div>
+
+                <!-- Grid 2x2 de Métricas -->
+                <div class="grid grid-cols-2 gap-2.5 mb-4 relative z-10">
+                    <!-- Peso Atual -->
+                    <div class="bg-[#0a0a0d]/70 rounded-2xl p-3 border border-wine-800/60">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-zinc-400 block">Peso Atual</span>
+                        <div class="flex items-baseline gap-1 mt-0.5">
+                            <span id="dash-current-weight" class="text-2xl font-black text-white">54,0</span>
+                            <span class="text-xs font-bold text-zinc-400">kg</span>
+                        </div>
+                        <span id="dash-weight-badge" class="text-[10px] font-semibold text-orange-400 block mt-0.5 truncate">
+                            Peso inicial (54,0 kg)
+                        </span>
+                    </div>
+
+                    <!-- Massa Ganha -->
+                    <div class="bg-[#0a0a0d]/70 rounded-2xl p-3 border border-purple-500/30">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-purple-300 block">Massa Ganha</span>
+                        <div class="flex items-baseline gap-1 mt-0.5">
+                            <span id="dash-gained-weight" class="text-2xl font-black text-[#8b5cf6]">+0,0</span>
+                            <span class="text-xs font-bold text-zinc-400">kg</span>
+                        </div>
+                        <span id="dash-remaining-text" class="text-[10px] font-semibold text-zinc-300 block mt-0.5">
+                            Faltam 14,0 kg para 68kg
+                        </span>
+                    </div>
+
+                    <!-- IMC Atual -->
+                    <div class="bg-[#0a0a0d]/70 rounded-2xl p-3 border border-zinc-800">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-zinc-400 block">IMC Atual (1,71m)</span>
+                        <div class="flex flex-wrap items-center gap-1.5 mt-1">
+                            <span id="dash-imc-value" class="text-lg font-black text-white">18,5</span>
+                            <span id="dash-imc-label" class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Limite Magreza</span>
+                        </div>
+                    </div>
+
+                    <!-- Previsão da Meta -->
+                    <div class="bg-[#0a0a0d]/70 rounded-2xl p-3 border border-zinc-800">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-zinc-400 block">Previsão 68,0 kg</span>
+                        <div class="mt-0.5">
+                            <span id="dash-target-date" class="text-sm sm:text-base font-black text-[#ff5500] block leading-tight">--/--/----</span>
+                            <span id="dash-pace-label" class="text-[10px] font-medium text-zinc-400 block mt-0.5">Ritmo: ~0,40 kg/sem</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Barra de Progresso Roxo Elétrico + Laranja Neon -->
+                <div class="space-y-1.5 relative z-10">
+                    <div class="flex items-center justify-between text-xs">
+                        <span id="motivational-msg" class="font-bold text-zinc-200">Hora de construir força e volume! 🔥</span>
+                        <span id="dash-progress-pct" class="font-black text-[#ff5500]">0%</span>
+                    </div>
+                    <div class="w-full h-3.5 bg-[#0a0a0d] rounded-full overflow-hidden p-0.5 border border-zinc-800">
+                        <div id="dash-progress-bar" class="h-full bg-gradient-to-r from-[#8b5cf6] via-wine-700 to-[#ff5500] rounded-full transition-all duration-500" style="width: 0%;"></div>
+                    </div>
+                    <div class="flex justify-between text-[10px] font-semibold text-zinc-400">
+                        <span>54,0 kg (Base)</span>
+                        <span>61,0 kg</span>
+                        <span class="text-[#ff5500] font-extrabold">Meta: 68,0 kg</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cartão de Atualização Rápida de Peso -->
+            <div class="bg-gradient-to-r from-[#ff5500] via-orange-600 to-wine-800 rounded-3xl p-4 text-white shadow-lg shadow-orange-600/20 border border-orange-400/30">
+                <form onsubmit="handleQuickWeightSave(event)" class="space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <label for="quick-weight-input" class="text-xs font-black uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-weight-scale"></i>
+                            <span>Atualizar Peso na Balança</span>
+                        </label>
+                        <span class="text-[10px] bg-black/30 px-2.5 py-0.5 rounded-full font-bold border border-white/15">Recalcula IMC & Meta</span>
+                    </div>
+
+                    <div class="flex items-stretch gap-2">
+                        <div class="relative flex-grow">
+                            <input type="text" inputmode="decimal" id="quick-weight-input" required
+                                placeholder="Ex: 54.8"
+                                class="w-full h-12 pl-4 pr-10 rounded-2xl bg-[#0a0a0d] text-white border border-white/20 font-black text-lg placeholder:text-zinc-500 placeholder:font-medium focus:outline-none focus:ring-2 focus:ring-purple-400">
+                            <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-extrabold text-zinc-400">kg</span>
+                        </div>
+                        <button type="submit"
+                            class="h-12 px-5 rounded-2xl bg-white hover:bg-zinc-100 active:scale-95 text-[#0a0a0d] font-black text-sm shadow-md transition flex items-center gap-2 shrink-0 cursor-pointer">
+                            <i class="fa-solid fa-check text-[#ff5500]"></i>
+                            <span>Salvar Peso</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             ABA 1: TREINO DE HIPERTROFIA E FORÇA
+             ===================================================================== -->
+        <section id="tab-treino" class="space-y-4 animate-fade-in">
+            
+            <!-- Banner Prático de Nutrição Anabólica (Superávit & Proteína) -->
+            <div class="tactical-card rounded-3xl p-4 border-l-4 border-l-[#8b5cf6] flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-purple-500/15 border border-purple-500/30 text-[#8b5cf6] flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-drumstick-bite text-base"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-black text-white">Meta Diária de Combustível</span>
+                            <span class="text-[10px] font-bold px-2 py-0.2 rounded bg-purple-500/20 text-purple-300">+350 a 450 kcal</span>
+                        </div>
+                        <p id="nutrition-tip-text" class="text-[11px] text-zinc-400 mt-0.5 leading-snug">
+                            Proteína alvo: <strong class="text-zinc-200">98g a 108g/dia</strong> (1,8–2,0g/kg) + carboidratos pré/pós-treino.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bloco Principal do Treino Semanal -->
+            <div class="tactical-card rounded-3xl p-4 sm:p-5 space-y-4">
+                
+                <!-- Seletor de Fase / Semana -->
+                <div class="flex items-center justify-between gap-2">
+                    <div>
+                        <span id="workout-phase-tag" class="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                            Fase 1 • Adaptação & Base
+                        </span>
+                        <h2 class="text-base font-black text-white mt-1.5">Planilha de Força</h2>
+                    </div>
+
+                    <div class="flex items-center gap-1.5 bg-[#0a0a0d] p-1 rounded-2xl border border-zinc-800">
+                        <button onclick="changeWeek(-1)" class="w-9 h-9 rounded-xl bg-zinc-900 text-[#ff5500] hover:bg-zinc-800 flex items-center justify-center active:scale-95 transition cursor-pointer" aria-label="Semana anterior">
+                            <i class="fa-solid fa-chevron-left text-xs"></i>
+                        </button>
+                        <span id="week-number-label" class="px-2 text-xs font-black text-white min-w-[76px] text-center">
+                            Semana 1
+                        </span>
+                        <button onclick="changeWeek(1)" class="w-9 h-9 rounded-xl bg-zinc-900 text-[#ff5500] hover:bg-zinc-800 flex items-center justify-center active:scale-95 transition cursor-pointer" aria-label="Próxima semana">
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Seletor Horizontal dos Dias (Seg a Dom) -->
+                <div id="mobile-days-strip" class="flex gap-2 overflow-x-auto no-scrollbar py-1">
+                    <!-- Preenchido via JS -->
+                </div>
+
+                <!-- Resumo do Treino do Dia -->
+                <div class="bg-gradient-to-br from-wine-950 via-[#16121e] to-[#0e0e14] rounded-2xl p-4 border border-wine-800/70">
+                    <div class="flex items-start justify-between gap-2">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span id="selected-day-name" class="text-xs font-black text-[#ff5500] uppercase tracking-wide">Segunda-feira</span>
+                                <span id="day-done-badge" class="hidden text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                                    <i class="fa-solid fa-check mr-0.5"></i> Concluído
+                                </span>
+                            </div>
+                            <h3 id="workout-title" class="text-base sm:text-lg font-black text-white mt-0.5 leading-snug">
+                                Peito, Ombro Anterior e Tríceps
+                            </h3>
+                        </div>
+                        <div class="text-right shrink-0 bg-[#0a0a0d]/80 px-2.5 py-1.5 rounded-xl border border-zinc-800">
+                            <span id="workout-stimulus-badge" class="text-xs font-black text-[#8b5cf6] block">+Hipertrofia</span>
+                            <span id="workout-time-badge" class="text-[10px] font-semibold text-zinc-400 block">50 min</span>
+                        </div>
+                    </div>
+                    <p id="workout-desc" class="text-xs text-zinc-300 mt-2 leading-relaxed">
+                        Foco em tensão mecânica e progressão de carga nos empurrões.
+                    </p>
+                </div>
+
+                <!-- Lista de Exercícios -->
+                <div>
+                    <div class="flex items-center justify-between mb-2.5">
+                        <span class="text-xs font-bold text-zinc-400">Marque cada exercício concluído:</span>
+                        <span id="exercises-counter" class="text-xs font-black text-[#8b5cf6]">0/5</span>
+                    </div>
+                    <div id="exercises-container" class="space-y-2.5">
+                        <!-- Preenchido via JS -->
+                    </div>
+                </div>
+
+                <!-- Botão Principal de Concluir Treino -->
+                <button id="btn-complete-day" onclick="toggleDayWorkoutComplete()"
+                    class="w-full py-4 px-5 rounded-2xl font-black text-sm sm:text-base text-white bg-gradient-to-r from-[#ff5500] to-wine-700 hover:brightness-110 shadow-lg shadow-orange-600/25 flex items-center justify-center gap-2 active:scale-[0.98] transition cursor-pointer">
+                    <i class="fa-solid fa-circle-check text-lg"></i>
+                    <span>Concluir Treino do Dia</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             ABA 2: PESO & META (GRÁFICO SVG + CARDS COMPARATIVOS + HISTÓRICO)
+             ===================================================================== -->
+        <section id="tab-peso" class="hidden space-y-4 animate-fade-in">
+            
+            <!-- Gráfico SVG de Evolução -->
+            <div class="tactical-card rounded-3xl p-4 sm:p-5">
+                <div class="flex items-center justify-between mb-3">
+                    <div>
+                        <h2 class="text-base font-black text-white">Curva de Ganho de Massa (kg)</h2>
+                        <p class="text-xs text-zinc-400">Evolução real desde 54,0 kg rumo aos 68,0 kg</p>
+                    </div>
+                    <span class="w-9 h-9 rounded-xl bg-orange-500/15 border border-orange-500/30 text-[#ff5500] flex items-center justify-center">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </span>
+                </div>
+
+                <div id="svg-chart-wrapper" class="w-full overflow-hidden bg-[#0a0a0d] rounded-2xl p-2 border border-zinc-800">
+                    <!-- SVG gerado via JS -->
+                </div>
+
+                <div class="flex items-center justify-between text-[11px] text-zinc-400 mt-3 pt-2.5 border-t border-zinc-800">
+                    <span class="flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#ff5500] inline-block"></span> Peso real
+                    </span>
+                    <span class="flex items-center gap-1.5">
+                        <span class="w-3 border-t-2 border-dashed border-[#8b5cf6] inline-block"></span> Projeção 68,0 kg
+                    </span>
+                    <span id="chart-eta-label" class="font-extrabold text-[#ff5500]">Alvo: --/--/----</span>
+                </div>
+            </div>
+
+            <!-- Cards Comparativos Detalhados -->
+            <div class="tactical-card rounded-3xl p-4 sm:p-5">
+                <h3 class="text-sm font-black text-white uppercase tracking-wider mb-3">Comparativo Corporal (1,71m)</h3>
+                <div class="grid grid-cols-3 gap-2 text-center">
+                    <div class="bg-[#0a0a0d] p-3 rounded-2xl border border-zinc-800">
+                        <span class="text-[10px] font-bold text-zinc-400 block">Início</span>
+                        <span class="text-base font-black text-zinc-200 mt-0.5 block">54,0 kg</span>
+                        <span class="text-[10px] text-zinc-500">IMC 18,5</span>
+                    </div>
+                    <div class="bg-[#0a0a0d] p-3 rounded-2xl border border-orange-500/40">
+                        <span class="text-[10px] font-bold text-orange-400 block">Atual</span>
+                        <span id="comp-current-weight" class="text-base font-black text-white mt-0.5 block">54,0 kg</span>
+                        <span id="comp-current-imc" class="text-[10px] text-zinc-400">IMC 18,5</span>
+                    </div>
+                    <div class="bg-[#0a0a0d] p-3 rounded-2xl border border-purple-500/40">
+                        <span class="text-[10px] font-bold text-purple-400 block">Meta</span>
+                        <span class="text-base font-black text-[#8b5cf6] mt-0.5 block">68,0 kg</span>
+                        <span class="text-[10px] text-zinc-400">IMC 23,3</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2 text-center mt-2">
+                    <div class="bg-[#0a0a0d] p-2.5 rounded-2xl border border-zinc-800">
+                        <span class="text-[10px] font-bold text-zinc-400 block">Ganho Total</span>
+                        <span id="comp-gained-total" class="text-sm font-black text-emerald-400 mt-0.5 block">+0,0 kg</span>
+                    </div>
+                    <div class="bg-[#0a0a0d] p-2.5 rounded-2xl border border-zinc-800">
+                        <span class="text-[10px] font-bold text-zinc-400 block">Falta p/ Meta</span>
+                        <span id="comp-remaining" class="text-sm font-black text-[#ff5500] mt-0.5 block">14,0 kg</span>
+                    </div>
+                    <div class="bg-[#0a0a0d] p-2.5 rounded-2xl border border-zinc-800">
+                        <span class="text-[10px] font-bold text-zinc-400 block">Data Estimada</span>
+                        <span id="comp-eta-date" class="text-xs font-black text-purple-300 mt-1 block">--/--/----</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Histórico de Pesagens -->
+            <div class="tactical-card rounded-3xl p-4 sm:p-5">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-base font-black text-white">Histórico de Pesagens</h3>
+                    <span id="weighins-count-badge" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-wine-900 text-orange-300 border border-orange-500/30">
+                        0 registros
+                    </span>
+                </div>
+
+                <div id="weighins-history-list" class="space-y-2.5">
+                    <!-- Preenchido via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             ABA 3: HISTÓRICO DE TREINOS & RESET
+             ===================================================================== -->
+        <section id="tab-historico" class="hidden space-y-4 animate-fade-in">
+            
+            <!-- Resumo Geral -->
+            <div class="tactical-card rounded-3xl p-4 sm:p-5">
+                <h2 class="text-base font-black text-white mb-3">Resumo de Consistência</h2>
+                <div class="grid grid-cols-3 gap-2.5 text-center">
+                    <div class="bg-[#0a0a0d] p-3 rounded-2xl border border-zinc-800">
+                        <span id="hist-total-workouts" class="text-xl font-black text-[#ff5500] block">0</span>
+                        <span class="text-[11px] font-semibold text-zinc-400">Treinos</span>
+                    </div>
+                    <div class="bg-[#0a0a0d] p-3 rounded-2xl border border-zinc-800">
+                        <span id="hist-protein-goal" class="text-xl font-black text-[#8b5cf6] block">103g</span>
+                        <span class="text-[11px] font-semibold text-zinc-400">Proteína/dia</span>
+                    </div>
+                    <div class="bg-[#0a0a0d] p-3 rounded-2xl border border-zinc-800">
+                        <span id="hist-water-goal" class="text-xl font-black text-sky-400 block">2,2L</span>
+                        <span class="text-[11px] font-semibold text-zinc-400">Água/dia</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista Cronológica de Treinos Concluídos -->
+            <div class="tactical-card rounded-3xl p-4 sm:p-5">
+                <h3 class="text-base font-black text-white mb-3">Treinos Concluídos</h3>
+                <div id="workouts-history-list" class="space-y-2.5">
+                    <!-- Preenchido via JS -->
+                </div>
+            </div>
+
+            <!-- Reiniciar Plano -->
+            <div class="tactical-card rounded-3xl p-4 sm:p-5 flex items-center justify-between gap-3">
+                <div>
+                    <h4 class="text-sm font-extrabold text-white">Recomeçar do Zero</h4>
+                    <p class="text-xs text-zinc-400">Zera treinos e pesagens e retorna aos 54,0 kg</p>
+                </div>
+                <button onclick="openResetModal()" class="px-4 py-2.5 rounded-xl bg-wine-950 text-red-400 hover:bg-wine-900 font-extrabold text-xs border border-red-500/30 transition cursor-pointer shrink-0">
+                    Reiniciar
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- =========================================================================
+         BOTTOM TAB BAR FIXA
+         ========================================================================= -->
+    <nav aria-label="Navegação Principal" class="fixed bottom-0 inset-x-0 z-40 bg-[#0d0d12]/95 backdrop-blur-md border-t border-wine-900/80 pb-safe shadow-[0_-6px_25px_rgba(0,0,0,0.85)]">
+        <div class="max-w-xl mx-auto grid grid-cols-3 h-16">
+            <button onclick="switchTab('treino')" id="nav-btn-treino" class="flex flex-col items-center justify-center gap-1 text-[#ff5500] font-black transition cursor-pointer">
+                <i class="fa-solid fa-dumbbell text-lg"></i>
+                <span class="text-[11px]">Treino</span>
+            </button>
+            <button onclick="switchTab('peso')" id="nav-btn-peso" class="flex flex-col items-center justify-center gap-1 text-zinc-500 hover:text-zinc-300 font-semibold transition cursor-pointer">
+                <i class="fa-solid fa-weight-scale text-lg"></i>
+                <span class="text-[11px]">Peso & Meta</span>
+            </button>
+            <button onclick="switchTab('historico')" id="nav-btn-historico" class="flex flex-col items-center justify-center gap-1 text-zinc-500 hover:text-zinc-300 font-semibold transition cursor-pointer">
+                <i class="fa-solid fa-calendar-check text-lg"></i>
+                <span class="text-[11px]">Histórico</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Toast Flutuante -->
+    <div id="toast-box" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 hidden w-[92%] max-w-sm bg-[#16161f] text-white px-4 py-3 rounded-2xl shadow-2xl border border-[#ff5500]/50 flex items-center gap-3 animate-fade-in">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#ff5500] to-[#8b5cf6] flex items-center justify-center shrink-0 text-white">
+            <i class="fa-solid fa-bolt"></i>
+        </div>
+        <div class="text-xs">
+            <p id="toast-title" class="font-black text-white">Salvo!</p>
+            <p id="toast-desc" class="text-zinc-300 mt-0.5">Progresso atualizado com sucesso.</p>
+        </div>
+    </div>
+
+    <!-- Modal Customizado de Reset -->
+    <div id="reset-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-[#15151e] border border-wine-800 rounded-3xl max-w-sm w-full p-6 shadow-2xl animate-fade-in">
+            <div class="w-12 h-12 rounded-2xl bg-wine-950 border border-red-500/30 text-red-400 flex items-center justify-center text-xl mb-3">
+                <i class="fa-solid fa-rotate-left"></i>
+            </div>
+            <h3 class="text-base font-black text-white">Reiniciar todo o plano?</h3>
+            <p class="text-xs text-zinc-400 mt-1.5 mb-5 leading-relaxed">
+                Todos os registros de peso e treinos concluídos serão apagados na nuvem e seu peso voltará para <strong class="text-white">54,0 kg</strong>.
+            </p>
+            <div class="flex justify-end gap-2">
+                <button onclick="closeResetModal()" class="px-4 py-2.5 rounded-xl text-xs font-bold text-zinc-300 hover:bg-zinc-800 cursor-pointer">
+                    Cancelar
+                </button>
+                <button onclick="confirmResetAll()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white bg-red-600 hover:bg-red-500 shadow-md cursor-pointer">
+                    Sim, Reiniciar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        // =========================================================================
+        // 0. FIREBASE REALTIME DATABASE (MESMO PROJETO, CAMINHO ISOLADO)
+        // =========================================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLZ-lOJ9V750N_hFPEFBWEwd0xXVzGKSs",
+            authDomain: "nord-dba5d.firebaseapp.com",
+            databaseURL: "https://nord-dba5d-default-rtdb.firebaseio.com",
+            projectId: "nord-dba5d",
+            storageBucket: "nord-dba5d.firebasestorage.app",
+            messagingSenderId: "473231525493",
+            appId: "1:473231525493:web:2def50deed039d6eea5a3c"
+        };
+
+        let db = null;
+        let stateRef = null;
+
+        try {
+            const app = initializeApp(firebaseConfig);
+            db = getDatabase(app);
+            // Caminho exclusivo para o plano de hipertrofia (não sobrescreve meta50kg_app/estado)
+            stateRef = ref(db, "meta_forca_app/estado");
+        } catch (error) {
+            console.error("Erro ao inicializar Firebase:", error);
+            updateSyncIndicator("offline", "Modo offline local");
+        }
+
+        function updateSyncIndicator(status, label) {
+            const badge = document.getElementById("sync-status-badge");
+            const dot = document.getElementById("sync-status-dot");
+            const text = document.getElementById("sync-status-text");
+            if (!badge || !dot || !text) return;
+
+            text.textContent = label;
+
+            if (status === "synced") {
+                badge.className = "flex items-center gap-1.5 bg-emerald-950/70 border border-emerald-500/40 px-2.5 py-1.5 rounded-full transition-colors";
+                dot.className = "w-2 h-2 rounded-full bg-emerald-400";
+                text.className = "text-[10px] font-bold text-emerald-300";
+            } else if (status === "syncing") {
+                badge.className = "flex items-center gap-1.5 bg-amber-950/70 border border-amber-500/40 px-2.5 py-1.5 rounded-full transition-colors";
+                dot.className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
+                text.className = "text-[10px] font-bold text-amber-300";
+            } else {
+                badge.className = "flex items-center gap-1.5 bg-zinc-900 border border-zinc-700 px-2.5 py-1.5 rounded-full transition-colors";
+                dot.className = "w-2 h-2 rounded-full bg-zinc-400";
+                text.className = "text-[10px] font-bold text-zinc-400";
+            }
+        }
+
+        // =========================================================================
+        // 1. PERFIL DE HIPERTROFIA E PLANILHA SEMANAL DE FORÇA
+        // =========================================================================
+        const USER_PROFILE = {
+            height: 1.71,
+            startWeight: 54.0,
+            targetWeight: 68.0,
+            totalToGain: 14.0,
+            defaultWeeklyPace: 0.40, // Ganho limpo sustentável (~0,35 a 0,45 kg/sem)
+            anabolicGainPerWorkout: 0.065 // Estímulo estimado por sessão + superávit entre pesagens
+        };
+
+        const DAYS = [
+            { id: 0, short: 'Seg', full: 'Segunda-feira' },
+            { id: 1, short: 'Ter', full: 'Terça-feira' },
+            { id: 2, short: 'Qua', full: 'Quarta-feira' },
+            { id: 3, short: 'Qui', full: 'Quinta-feira' },
+            { id: 4, short: 'Sex', full: 'Sexta-feira' },
+            { id: 5, short: 'Sáb', full: 'Sábado' },
+            { id: 6, short: 'Dom', full: 'Domingo' }
+        ];
+
+        const WEEKLY_PLAN = [
+            {
+                dayId: 0,
+                title: 'Peito, Ombro Anterior e Tríceps',
+                desc: 'Foco em tensão mecânica e progressão de carga nos movimentos de empurrar.',
+                duration: 55,
+                focusTag: 'Push A • Força',
+                exercises: [
+                    { name: 'Supino Reto (Barra ou Halteres)', muscle: 'Peitoral Maior', sets: '4x 6–8 reps', rest: '2 min', tip: 'Escápulas retraídas no banco; desça controlado em 2s e empurre com explosão.' },
+                    { name: 'Supino Inclinado com Halteres (30°)', muscle: 'Peitoral Superior', sets: '3x 8–10 reps', rest: '90 seg', tip: 'Amplitude máxima alongando o peitoral sem bater os halteres no topo.' },
+                    { name: 'Desenvolvimento Militar com Halteres', muscle: 'Ombro Anterior', sets: '3x 8–10 reps', rest: '90 seg', tip: 'Abdômen travado para não arquear a lombar; suba até quase estender os cotovelos.' },
+                    { name: 'Elevação Lateral com Halteres', muscle: 'Deltóide Lateral', sets: '3x 12–15 reps', rest: '60 seg', tip: 'Cotovelos levemente flexionados, suba até a linha dos ombros sem balançar o tronco.' },
+                    { name: 'Tríceps Testa ou Polia Alta (Corda)', muscle: 'Tríceps Braquial', sets: '3x 10–12 reps', rest: '60 seg', tip: 'Mantenha os cotovelos fixos ao lado do corpo e contraia forte no final.' }
+                ]
+            },
+            {
+                dayId: 1,
+                title: 'Costas, Posterior de Ombro e Bíceps',
+                desc: 'Construção de largura dorsal, densidade escapular e força de tração.',
+                duration: 55,
+                focusTag: 'Pull A • Densidade',
+                exercises: [
+                    { name: 'Barra Fixa ou Puxada Frente Aberta', muscle: 'Latíssimo do Dorso', sets: '4x 6–10 reps', rest: '2 min', tip: 'Inicie o movimento puxando os cotovelos para baixo e abrindo o peito.' },
+                    { name: 'Remada Curvada com Barra ou Cavalinho', muscle: 'Meio das Costas', sets: '4x 8–10 reps', rest: '90 seg', tip: 'Coluna neutra, puxe a barra em direção ao umbigo esmagando as escápulas.' },
+                    { name: 'Remada Unilateral Serrote com Halter', muscle: 'Dorsal / Romboides', sets: '3x 10 cada', rest: '60 seg', tip: 'Alongue bem o ombro na descida e puxe o cotovelo rente ao quadril.' },
+                    { name: 'Face Pull ou Crucifixo Inverso', muscle: 'Posterior de Ombro', sets: '3x 12–15 reps', rest: '60 seg', tip: 'Puxe em direção à testa rodando os polegares para trás.' },
+                    { name: 'Rosca Direta com Barra W ou Halteres', muscle: 'Bíceps Braquial', sets: '3x 8–12 reps', rest: '60 seg', tip: 'Sem roubar com a lombar; controle a descida em 3 segundos.' }
+                ]
+            },
+            {
+                dayId: 2,
+                title: 'Pernas Completo (Quad, Post & Panturrilha)',
+                desc: 'Treino base anabólico para liberar resposta hormonal e estrutural.',
+                duration: 60,
+                focusTag: 'Legs • Base',
+                exercises: [
+                    { name: 'Agachamento Livre com Barra', muscle: 'Quadríceps & Glúteos', sets: '4x 6–8 reps', rest: '2m 30s', tip: 'Pés na largura dos ombros, joelhos alinhados com a ponta dos pés e desça abaixo de 90°.' },
+                    { name: 'Leg Press 45°', muscle: 'Quadríceps', sets: '3x 10–12 reps', rest: '90 seg', tip: 'Não trave os joelhos no topo e não tire o quadril do banco na descida.' },
+                    { name: 'Stiff com Barra ou Halteres', muscle: 'Posterior de Coxa', sets: '3x 8–10 reps', rest: '90 seg', tip: 'Jogue o quadril para trás mantendo a barra raspando nas pernas e coluna reta.' },
+                    { name: 'Mesa Flexora', muscle: 'Isquiotibiais', sets: '3x 10–12 reps', rest: '60 seg', tip: 'Segure 1 segundo na contração máxima antes de retornar devagar.' },
+                    { name: 'Panturrilha em Pé ou no Leg Press', muscle: 'Gastrocnêmio', sets: '4x 12–15 reps', rest: '45 seg', tip: 'Pausa de 2 segundos embaixo para eliminar o efeito mola do tendão.' }
+                ]
+            },
+            {
+                dayId: 3,
+                title: 'Descanso Ativo, Mobilidade & Core',
+                desc: 'Recuperação do sistema nervoso central e fortalecimento profundo do abdômen.',
+                duration: 30,
+                focusTag: 'Core & Mobilidade',
+                exercises: [
+                    { name: 'Mobilidade Torácica, Ombros e Quadril', muscle: 'Articulações', sets: '10 min', rest: 'Livre', tip: 'Melhora a amplitude para agachar e supinar com mais carga.' },
+                    { name: 'Prancha Abdominal com Sobrecarga Leve', muscle: 'Core Profundo', sets: '3x 45 seg', rest: '45 seg', tip: 'Contraia glúteos e abdômen ao máximo mantendo a pelve neutra.' },
+                    { name: 'Elevação de Pernas na Barra ou Paralela', muscle: 'Infra-abdominal', sets: '3x 12–15 reps', rest: '45 seg', tip: 'Suba os joelhos/pernas enrolando o quadril sem balançar o corpo.' },
+                    { name: 'Caminhada Leve Regenerativa', muscle: 'Recuperação', sets: '15 min', rest: 'Livre', tip: 'Ritmo leve apenas para aumentar o fluxo sanguíneo muscular.' }
+                ]
+            },
+            {
+                dayId: 4,
+                title: 'Upper Body — Força e Compostos',
+                desc: 'Estímulo duplo na semana para tronco com foco em cargas desafiadoras.',
+                duration: 55,
+                focusTag: 'Upper • Força',
+                exercises: [
+                    { name: 'Desenvolvimento em Pé com Barra (OHP)', muscle: 'Ombros & Core', sets: '4x 6–8 reps', rest: '2 min', tip: 'Empurre a barra em linha reta encaixando a cabeça sob ela no topo.' },
+                    { name: 'Barra Fixa Supinada (Chin-Up) ou Puxada', muscle: 'Dorsal & Bíceps', sets: '4x 6–10 reps', rest: '2 min', tip: 'Pegada na largura dos ombros; leve o queixo acima da barra.' },
+                    { name: 'Paralelas (Dips) ou Supino Fechado', muscle: 'Peito Inferior & Tríceps', sets: '3x 8–10 reps', rest: '90 seg', tip: 'Incline levemente o tronco à frente para recrutar peitoral e tríceps.' },
+                    { name: 'Remada Baixa no Triângulo', muscle: 'Costas Completo', sets: '3x 10–12 reps', rest: '75 seg', tip: 'Mantenha o peito erguido e puxe o triângulo até a base do esterno.' },
+                    { name: 'Bi-set: Rosca Martelo + Tríceps Francês', muscle: 'Braços Completo', sets: '3x 10–12 reps', rest: '60 seg', tip: 'Execute um exercício logo após o outro para máximo pump sanguíneo.' }
+                ]
+            },
+            {
+                dayId: 5,
+                title: 'Lower Body, Posterior & Condicionamento',
+                desc: 'Cadeia posterior forte, estabilidade unilateral e condicionamento curto.',
+                duration: 55,
+                focusTag: 'Lower B • Potência',
+                exercises: [
+                    { name: 'Levantamento Terra Romeno (RDL) ou Convencional', muscle: 'Cadeia Posterior', sets: '4x 6–8 reps', rest: '2m 30s', tip: 'Empurre o chão com os pés, trave o core e suba mantendo a barra colada ao corpo.' },
+                    { name: 'Agachamento Búlgaro com Halteres', muscle: 'Quadríceps & Glúteos', sets: '3x 8–10 cada', rest: '90 seg', tip: 'Desça verticalmente mantendo o tronco levemente inclinado para frente.' },
+                    { name: 'Cadeira Extensora', muscle: 'Quadríceps', sets: '3x 12–15 reps', rest: '60 seg', tip: 'Segure 1s no topo da extensão para máximo recrutamento do vasto medial.' },
+                    { name: 'Panturrilha Sentado', muscle: 'Sóleo', sets: '4x 15 reps', rest: '45 seg', tip: 'Amplitude completa para desenvolver espessura na panturrilha.' },
+                    { name: 'Farmer Walk (Caminhada do Fazendeiro)', muscle: 'Pegada, Trapézio & Core', sets: '4x 30 metros', rest: '60 seg', tip: 'Segure os halteres mais pesados que conseguir com postura ereta.' }
+                ]
+            },
+            {
+                dayId: 6,
+                title: 'Descanso Total & Supercompensação',
+                desc: 'O músculo cresce fora da academia. Priorize sono profundo e superávit limpo.',
+                duration: 0,
+                focusTag: 'Recuperação',
+                exercises: [
+                    { name: 'Dormir 7h30 a 9h com qualidade', muscle: 'Síntese Proteica', sets: 'Noite inteira', rest: 'Total', tip: 'O pico de GH e recuperação neuromuscular ocorre durante o sono profundo.' },
+                    { name: 'Bater a meta de calorias e proteínas do dia', muscle: 'Superávit Limpo', sets: '4–5 refeições', rest: 'Livre', tip: 'Não pule refeições no domingo para manter o balanço nitrogenado positivo.' }
+                ]
+            }
+        ];
+
+        // =========================================================================
+        // 2. ESTADO PERSISTENTE (FIREBASE + LOCALSTORAGE ISOLADO)
+        // =========================================================================
+        const STORAGE_KEY = 'meta_forca_68kg_backup';
+
+        function getDefaultDay() {
+            const jsDay = new Date().getDay();
+            return jsDay === 0 ? 6 : jsDay - 1;
+        }
+
+        let state = {
+            activeTab: 'treino',
+            startDate: new Date().toISOString(),
+            selectedWeek: 1,
+            selectedDay: getDefaultDay(),
+            weighIns: [],          // [{ id, date, weight }]
+            completedWorkouts: {}, // { "w1-d0": { date, title, focusTag, week, dayFull, exercisesList } }
+            checkedExercises: {}   // { "w1-d0-e0": true }
+        };
+
+        function sanitizeStateForFirebase(currentState) {
+            return {
+                startDate: currentState.startDate || new Date().toISOString(),
+                selectedWeek: Number(currentState.selectedWeek) || 1,
+                selectedDay: Number.isInteger(currentState.selectedDay) ? currentState.selectedDay : 0,
+                weighIns: Array.isArray(currentState.weighIns) ? currentState.weighIns : [],
+                completedWorkouts: currentState.completedWorkouts && Object.keys(currentState.completedWorkouts).length > 0
+                    ? currentState.completedWorkouts
+                    : null,
+                checkedExercises: currentState.checkedExercises && Object.keys(currentState.checkedExercises).length > 0
+                    ? currentState.checkedExercises
+                    : null,
+                updatedAt: new Date().toISOString()
+            };
+        }
+
+        function hydrateStateFromRemote(remoteData) {
+            const localTab = state.activeTab || 'treino';
+            state = {
+                activeTab: localTab,
+                startDate: remoteData.startDate || new Date().toISOString(),
+                selectedWeek: Number(remoteData.selectedWeek) || 1,
+                selectedDay: Number.isInteger(remoteData.selectedDay) ? remoteData.selectedDay : getDefaultDay(),
+                weighIns: Array.isArray(remoteData.weighIns)
+                    ? remoteData.weighIns.filter(Boolean)
+                    : (remoteData.weighIns ? Object.values(remoteData.weighIns) : []),
+                completedWorkouts: remoteData.completedWorkouts || {},
+                checkedExercises: remoteData.checkedExercises || {}
+            };
+        }
+
+        function loadLocalFallback() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    state = {
+                        ...state,
+                        ...parsed,
+                        weighIns: Array.isArray(parsed.weighIns) ? parsed.weighIns : [],
+                        completedWorkouts: parsed.completedWorkouts || {},
+                        checkedExercises: parsed.checkedExercises || {}
+                    };
+                }
+            } catch (err) {
+                console.error('Erro ao carregar backup local:', err);
+            }
+        }
+
+        function saveLocalBackup() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            } catch (err) {
+                console.error('Erro ao salvar backup local:', err);
+            }
+        }
+
+        async function saveState() {
+            saveLocalBackup();
+
+            if (stateRef) {
+                updateSyncIndicator("syncing", "Sincronizando...");
+                try {
+                    await set(stateRef, sanitizeStateForFirebase(state));
+                    updateSyncIndicator("synced", "Sincronizado na nuvem");
+                } catch (err) {
+                    console.error("Falha ao gravar no Firebase:", err);
+                    updateSyncIndicator("offline", "Modo offline local");
+                }
+            }
+        }
+
+        function initRealtimeSync() {
+            loadLocalFallback();
+            renderAll();
+            switchTab(state.activeTab || 'treino');
+
+            if (!stateRef) {
+                updateSyncIndicator("offline", "Modo offline local");
+                return;
+            }
+
+            updateSyncIndicator("syncing", "Sincronizando...");
+
+            onValue(
+                stateRef,
+                async (snapshot) => {
+                    const remoteData = snapshot.val();
+
+                    if (remoteData === null) {
+                        try {
+                            await set(stateRef, sanitizeStateForFirebase(state));
+                            updateSyncIndicator("synced", "Sincronizado na nuvem");
+                        } catch (err) {
+                            console.error("Erro ao criar nó inicial no Firebase:", err);
+                            updateSyncIndicator("offline", "Modo offline local");
+                        }
+                    } else {
+                        hydrateStateFromRemote(remoteData);
+                        saveLocalBackup();
+                        updateSyncIndicator("synced", "Sincronizado na nuvem");
+                        renderAll();
+                    }
+                },
+                (error) => {
+                    console.error("Erro no listener do Firebase:", error);
+                    updateSyncIndicator("offline", "Modo offline local");
+                }
+            );
+        }
+
+        // =========================================================================
+        // 3. MOTOR DE CÁLCULO DE HIPERTROFIA (PESO, IMC, GANHO E PREVISÃO 68KG)
+        // =========================================================================
+        function computeStats() {
+            const workoutList = Object.values(state.completedWorkouts);
+            const totalWorkouts = workoutList.length;
+
+            // Ordena pesagens cronologicamente
+            const sortedWeighIns = [...state.weighIns].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            let currentWeight = USER_PROFILE.startWeight;
+            let weightSourceText = 'Peso inicial (54,0 kg)';
+
+            if (sortedWeighIns.length > 0) {
+                const latestWeighIn = sortedWeighIns[sortedWeighIns.length - 1];
+                const latestTime = new Date(latestWeighIn.date).getTime();
+
+                // Treinos feitos APÓS a última pesagem na balança adicionam estímulo anabólico estimado
+                const workoutsAfterLast = workoutList.filter(w => new Date(w.date).getTime() > latestTime);
+                const bonusGain = workoutsAfterLast.length * USER_PROFILE.anabolicGainPerWorkout;
+
+                currentWeight = latestWeighIn.weight + bonusGain;
+
+                const dateStr = new Date(latestWeighIn.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+                weightSourceText = workoutsAfterLast.length > 0
+                    ? `Balança (${dateStr}) + ${workoutsAfterLast.length} treino(s)`
+                    : `Balança em ${dateStr}`;
+            } else if (totalWorkouts > 0) {
+                const estimatedGain = totalWorkouts * USER_PROFILE.anabolicGainPerWorkout;
+                currentWeight = USER_PROFILE.startWeight + estimatedGain;
+                weightSourceText = `Estimado por ${totalWorkouts} treino(s)`;
+            }
+
+            const gainedWeight = currentWeight - USER_PROFILE.startWeight;
+            const remainingWeight = Math.max(0, USER_PROFILE.targetWeight - currentWeight);
+            const progressPct = Math.min(100, Math.max(0, (gainedWeight / USER_PROFILE.totalToGain) * 100));
+
+            // Cálculo do IMC para 1,71m (Peso / 1.71²)
+            const imc = currentWeight / (USER_PROFILE.height * USER_PROFILE.height);
+            let imcCategory = 'Eutrófico / Atlética';
+            let imcBadgeClass = 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+
+            if (imc < 18.5) {
+                imcCategory = 'Abaixo do Peso';
+                imcBadgeClass = 'bg-amber-500/20 text-amber-300 border border-amber-500/30';
+            } else if (imc < 20.5) {
+                imcCategory = 'Eutrófico (Magro)';
+                imcBadgeClass = 'bg-sky-500/20 text-sky-300 border border-sky-500/30';
+            } else if (imc <= 24.9) {
+                imcCategory = 'Atlético / Ideal';
+                imcBadgeClass = 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+            } else {
+                imcCategory = 'Forte / Acima 25';
+                imcBadgeClass = 'bg-purple-500/20 text-purple-300 border border-purple-500/30';
+            }
+
+            // Ritmo semanal saudável (~0,35 a 0,45 kg/semana ajustado pelo histórico real e treinos)
+            let weeklyPace = USER_PROFILE.defaultWeeklyPace;
+
+            if (sortedWeighIns.length >= 2) {
+                const firstDate = new Date(state.startDate);
+                const lastDate = new Date(sortedWeighIns[sortedWeighIns.length - 1].date);
+                const daysDiff = Math.max(4, (lastDate - firstDate) / (1000 * 60 * 60 * 24));
+                const weeksDiff = daysDiff / 7;
+                const realGain = sortedWeighIns[sortedWeighIns.length - 1].weight - USER_PROFILE.startWeight;
+
+                if (realGain > 0.1) {
+                    const observedPace = realGain / weeksDiff;
+                    // Mantém projeção realista entre 0,25 kg/sem e 0,65 kg/sem
+                    weeklyPace = Math.min(0.65, Math.max(0.25, observedPace));
+                }
+            } else if (sortedWeighIns.length === 1 && gainedWeight > 0.15) {
+                const daysSinceStart = Math.max(4, (new Date() - new Date(state.startDate)) / (1000 * 60 * 60 * 24));
+                const observedPace = gainedWeight / (daysSinceStart / 7);
+                weeklyPace = Math.min(0.60, Math.max(0.30, (observedPace * 0.5) + (USER_PROFILE.defaultWeeklyPace * 0.5)));
+            } else if (totalWorkouts > 0) {
+                weeklyPace = Math.min(0.45, 0.35 + (totalWorkouts * 0.004));
+            }
+
+            const weeksRemaining = remainingWeight > 0 ? (remainingWeight / weeklyPace) : 0;
+            const targetDate = new Date();
+            targetDate.setDate(targetDate.getDate() + Math.round(weeksRemaining * 7));
+
+            // Metas nutricionais calculadas dinamicamente pelo peso atual
+            const proteinMin = Math.round(currentWeight * 1.8);
+            const proteinMax = Math.round(currentWeight * 2.0);
+            const proteinAvg = Math.round(currentWeight * 1.9);
+            const waterLiters = ((currentWeight * 40) / 1000).toFixed(1).replace('.', ','); // 40ml/kg para hipertrofia
+
+            return {
+                currentWeight,
+                weightSourceText,
+                gainedWeight,
+                remainingWeight,
+                progressPct,
+                imc,
+                imcCategory,
+                imcBadgeClass,
+                weeklyPace,
+                targetDate,
+                totalWorkouts,
+                sortedWeighIns,
+                proteinMin,
+                proteinMax,
+                proteinAvg,
+                waterLiters
+            };
+        }
+
+        // =========================================================================
+        // 4. RENDERIZAÇÃO DA INTERFACE
+        // =========================================================================
+        function renderAll() {
+            const stats = computeStats();
+            renderDashboard(stats);
+            renderWorkoutTab();
+            renderWeightTab(stats);
+            renderHistoryTab(stats);
+        }
+
+        function renderDashboard(stats) {
+            document.getElementById('header-streak-text').textContent = `${stats.totalWorkouts} treino${stats.totalWorkouts === 1 ? '' : 's'}`;
+
+            document.getElementById('dash-current-weight').textContent = stats.currentWeight.toFixed(1).replace('.', ',');
+            document.getElementById('dash-weight-badge').textContent = stats.weightSourceText;
+
+            const gainPrefix = stats.gainedWeight >= 0 ? '+' : '';
+            document.getElementById('dash-gained-weight').textContent = `${gainPrefix}${stats.gainedWeight.toFixed(1).replace('.', ',')}`;
+            document.getElementById('dash-remaining-text').textContent = stats.remainingWeight <= 0
+                ? 'Meta de 68,0 kg alcançada! 🏆'
+                : `Faltam ${stats.remainingWeight.toFixed(1).replace('.', ',')} kg para 68kg`;
+
+            document.getElementById('dash-imc-value').textContent = stats.imc.toFixed(1).replace('.', ',');
+            const imcBadge = document.getElementById('dash-imc-label');
+            imcBadge.textContent = stats.imcCategory;
+            imcBadge.className = `text-[10px] font-extrabold px-2 py-0.5 rounded ${stats.imcBadgeClass}`;
+
+            const targetDateStr = stats.remainingWeight <= 0
+                ? 'Alcançada! 🏆'
+                : stats.targetDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+
+            document.getElementById('dash-target-date').textContent = targetDateStr;
+            document.getElementById('dash-pace-label').textContent = `Ritmo: ~${stats.weeklyPace.toFixed(2).replace('.', ',')} kg/sem`;
+
+            document.getElementById('dash-progress-pct').textContent = `${stats.progressPct.toFixed(1).replace('.', ',')}%`;
+            document.getElementById('dash-progress-bar').style.width = `${stats.progressPct}%`;
+
+            // Atualiza dica dinâmica de proteína
+            document.getElementById('nutrition-tip-text').innerHTML =
+                `Proteína alvo: <strong class="text-white">${stats.proteinMin}g a ${stats.proteinMax}g/dia</strong> (1,8–2,0g/kg) + carboidratos limpos.`;
+
+            // Mensagem motivacional
+            let msg = 'Hora de construir força e volume! 🔥';
+            if (stats.progressPct >= 100) msg = 'MONSTRO! Você atingiu os 68,0 kg! 🏆⚡';
+            else if (stats.progressPct >= 75) msg = 'Reta final! Shape ganhando densidade máxima 💪🔥';
+            else if (stats.progressPct >= 50) msg = 'Metade da jornada concluída! Continue progredindo carga ⚡';
+            else if (stats.progressPct >= 20) msg = 'Ótima evolução! Superávit e treino fazendo efeito 🚀';
+            else if (stats.gainedWeight > 0 || stats.totalWorkouts > 0) msg = 'Primeiro estímulo dado! Consistência gera hipertrofia 💪';
+
+            document.getElementById('motivational-msg').textContent = msg;
+        }
+
+        function getWorkoutData(week, dayId) {
+            const base = WEEKLY_PLAN[dayId];
+            let phase = 'Fase 1 • Adaptação & Base';
+            let progressionTip = 'Foque em técnica perfeita e cadência controlada.';
+
+            if (week >= 5 && week <= 12) {
+                phase = 'Fase 2 • Sobrecarga Progressiva';
+                progressionTip = 'Tente subir 1–2 kg ou +1 repetição nos exercícios principais.';
+            } else if (week >= 13 && week <= 24) {
+                phase = 'Fase 3 • Hipertrofia & Força Máxima';
+                progressionTip = 'Cargas máximas com execução limpa e descanso completo.';
+            } else if (week >= 25) {
+                phase = 'Fase 4 • Consolidação 68kg';
+                progressionTip = 'Mantenha intensidade alta e precisão nutricional.';
+            }
+
+            return {
+                ...base,
+                phase,
+                progressionTip
+            };
+        }
+
+        function renderWorkoutTab() {
+            const week = state.selectedWeek;
+            const day = state.selectedDay;
+            const workout = getWorkoutData(week, day);
+
+            document.getElementById('week-number-label').textContent = `Semana ${week}`;
+            document.getElementById('workout-phase-tag').textContent = workout.phase;
+
+            // Tira horizontal de dias
+            const strip = document.getElementById('mobile-days-strip');
+            strip.innerHTML = '';
+
+            DAYS.forEach(d => {
+                const key = `w${week}-d${d.id}`;
+                const isDone = Boolean(state.completedWorkouts[key]);
+                const isSelected = d.id === day;
+
+                const btn = document.createElement('button');
+                btn.onclick = () => {
+                    state.selectedDay = d.id;
+                    saveState();
+                    renderWorkoutTab();
+                };
+
+                btn.className = `flex-1 min-w-[46px] py-2.5 px-1 rounded-2xl flex flex-col items-center justify-center border transition cursor-pointer ${
+                    isSelected
+                        ? 'bg-gradient-to-b from-[#ff5500] to-wine-800 text-white border-orange-400/50 shadow-lg shadow-orange-600/20'
+                        : isDone
+                            ? 'bg-wine-950/90 text-orange-300 border-orange-500/40'
+                            : 'bg-[#0a0a0d] text-zinc-400 border-zinc-800 hover:border-zinc-700'
+                }`;
+
+                btn.innerHTML = `
+                    <span class="text-[11px] font-black">${d.short}</span>
+                    <span class="mt-1 text-xs">
+                        ${isDone
+                            ? `<i class="fa-solid fa-circle-check ${isSelected ? 'text-white' : 'text-[#ff5500]'}"></i>`
+                            : `<i class="fa-regular fa-circle ${isSelected ? 'text-orange-200/60' : 'text-zinc-600'}"></i>`
+                        }
+                    </span>
+                `;
+                strip.appendChild(btn);
+            });
+
+            // Cabeçalho do treino do dia
+            const workoutKey = `w${week}-d${day}`;
+            const isWorkoutDone = Boolean(state.completedWorkouts[workoutKey]);
+
+            document.getElementById('selected-day-name').textContent = DAYS[day].full;
+            document.getElementById('workout-title').textContent = workout.title;
+            document.getElementById('workout-desc').textContent = `${workout.desc} (${workout.progressionTip})`;
+            document.getElementById('workout-stimulus-badge').textContent = workout.focusTag;
+            document.getElementById('workout-time-badge').textContent = workout.duration > 0 ? `${workout.duration} min` : 'Dia Off';
+
+            const doneBadge = document.getElementById('day-done-badge');
+            if (isWorkoutDone) doneBadge.classList.remove('hidden');
+            else doneBadge.classList.add('hidden');
+
+            // Exercícios
+            const exContainer = document.getElementById('exercises-container');
+            exContainer.innerHTML = '';
+            let doneCount = 0;
+
+            workout.exercises.forEach((ex, idx) => {
+                const exKey = `${workoutKey}-e${idx}`;
+                const checked = isWorkoutDone || Boolean(state.checkedExercises[exKey]);
+                if (checked) doneCount++;
+
+                const label = document.createElement('label');
+                label.className = `flex items-start gap-3.5 p-3.5 rounded-2xl border transition cursor-pointer select-none active:scale-[0.99] ${
+                    checked
+                        ? 'bg-wine-950/40 border-purple-500/35'
+                        : 'bg-[#0a0a0d] border-zinc-800 hover:border-orange-500/40'
+                }`;
+
+                label.innerHTML = `
+                    <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleExerciseCheck('${exKey}')"
+                        class="exercise-checkbox mt-0.5 w-6 h-6 rounded-lg border-zinc-600 bg-zinc-900 text-[#ff5500] focus:ring-[#ff5500] accent-[#ff5500] cursor-pointer shrink-0">
+                    <div class="flex-grow transition">
+                        <div class="flex flex-wrap items-center justify-between gap-1">
+                            <span class="ex-title text-sm font-extrabold text-white leading-snug">${ex.name}</span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                            <span class="text-[11px] font-black px-2 py-0.5 rounded-md bg-orange-500/15 text-[#ff5500] border border-orange-500/25">
+                                ${ex.sets}
+                            </span>
+                            <span class="text-[11px] font-bold px-2 py-0.5 rounded-md bg-purple-500/15 text-purple-300 border border-purple-500/25">
+                                ${ex.muscle}
+                            </span>
+                            <span class="text-[11px] font-semibold text-zinc-400">
+                                <i class="fa-regular fa-clock mr-0.5"></i>${ex.rest}
+                            </span>
+                        </div>
+                        <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+                            <i class="fa-solid fa-fire-flame-curved text-[#ff5500] mr-1"></i>${ex.tip}
+                        </p>
+                    </div>
+                `;
+                exContainer.appendChild(label);
+            });
+
+            document.getElementById('exercises-counter').textContent = `${doneCount}/${workout.exercises.length} feitos`;
+
+            // Botão Concluir Treino do Dia
+            const btnComplete = document.getElementById('btn-complete-day');
+            if (isWorkoutDone) {
+                btnComplete.className = 'w-full py-4 px-5 rounded-2xl font-black text-sm sm:text-base text-purple-200 bg-purple-950/70 hover:bg-purple-900/70 border border-purple-500/40 flex items-center justify-center gap-2 transition cursor-pointer';
+                btnComplete.innerHTML = `
+                    <i class="fa-solid fa-check-double text-lg text-[#8b5cf6]"></i>
+                    <span>Treino Concluído! (Toque para desfazer)</span>
+                `;
+            } else {
+                btnComplete.className = 'w-full py-4 px-5 rounded-2xl font-black text-sm sm:text-base text-white bg-gradient-to-r from-[#ff5500] via-orange-600 to-wine-700 hover:brightness-110 shadow-lg shadow-orange-600/25 flex items-center justify-center gap-2 active:scale-[0.98] transition cursor-pointer';
+                btnComplete.innerHTML = `
+                    <i class="fa-solid fa-circle-check text-lg"></i>
+                    <span>Concluir Treino do Dia</span>
+                `;
+            }
+        }
+
+        // =========================================================================
+        // 5. ABA PESO & META (GRÁFICO SVG + COMPARATIVOS + PESAGENS)
+        // =========================================================================
+        function renderWeightTab(stats) {
+            renderPureSvgChart(stats);
+
+            const targetStr = stats.remainingWeight <= 0
+                ? 'Meta atingida! 🏆'
+                : `Meta 68kg: ${stats.targetDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })}`;
+            document.getElementById('chart-eta-label').textContent = targetStr;
+
+            // Atualiza cards comparativos
+            document.getElementById('comp-current-weight').textContent = `${stats.currentWeight.toFixed(1).replace('.', ',')} kg`;
+            document.getElementById('comp-current-imc').textContent = `IMC ${stats.imc.toFixed(1).replace('.', ',')}`;
+
+            const gainPrefix = stats.gainedWeight >= 0 ? '+' : '';
+            document.getElementById('comp-gained-total').textContent = `${gainPrefix}${stats.gainedWeight.toFixed(1).replace('.', ',')} kg`;
+            document.getElementById('comp-remaining').textContent = `${stats.remainingWeight.toFixed(1).replace('.', ',')} kg`;
+            document.getElementById('comp-eta-date').textContent = stats.remainingWeight <= 0
+                ? 'Alcançada!'
+                : stats.targetDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+            // Lista de pesagens
+            const listEl = document.getElementById('weighins-history-list');
+            const weighIns = stats.sortedWeighIns;
+            document.getElementById('weighins-count-badge').textContent = `${weighIns.length} registro${weighIns.length === 1 ? '' : 's'}`;
+
+            if (weighIns.length === 0) {
+                listEl.innerHTML = `
+                    <div class="text-center py-6 px-3 bg-[#0a0a0d] rounded-2xl border border-dashed border-zinc-800">
+                        <i class="fa-solid fa-scale-balanced text-2xl text-[#ff5500] mb-2"></i>
+                        <p class="text-xs font-extrabold text-zinc-200">Nenhuma pesagem registrada ainda</p>
+                        <p class="text-[11px] text-zinc-400 mt-0.5">Use o painel laranja no topo para salvar seu peso atual.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            for (let i = weighIns.length - 1; i >= 0; i--) {
+                const entry = weighIns[i];
+                const prevWeight = i === 0 ? USER_PROFILE.startWeight : weighIns[i - 1].weight;
+                const diff = entry.weight - prevWeight;
+
+                const diffFormatted = diff === 0
+                    ? '0,0 kg'
+                    : `${diff > 0 ? '+' : ''}${diff.toFixed(1).replace('.', ',')} kg`;
+
+                // No ganho de massa, variação positiva é destaque verde/roxo
+                const diffBadgeClass = diff > 0
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                    : diff < 0
+                        ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                        : 'bg-zinc-800 text-zinc-400';
+
+                const dateLabel = new Date(entry.date).toLocaleDateString('pt-BR', {
+                    day: '2-digit', month: 'short', year: 'numeric'
+                });
+
+                html += `
+                    <div class="flex items-center justify-between p-3.5 rounded-2xl bg-[#0a0a0d] border border-zinc-800">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-wine-950 border border-orange-500/30 flex items-center justify-center text-[#ff5500]">
+                                <i class="fa-solid fa-weight-scale text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm font-black text-white">${entry.weight.toFixed(1).replace('.', ',')} kg</span>
+                                    <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${diffBadgeClass}">
+                                        ${diffFormatted}
+                                    </span>
+                                </div>
+                                <span class="text-[11px] text-zinc-400 font-medium">${dateLabel}</span>
+                            </div>
+                        </div>
+
+                        <button onclick="deleteWeighIn('${entry.id}')" class="w-8 h-8 rounded-xl text-zinc-500 hover:text-red-400 hover:bg-red-950/40 flex items-center justify-center transition cursor-pointer" title="Excluir registro">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </div>
+                `;
+            }
+
+            html += `
+                <div class="flex items-center justify-between p-3 rounded-2xl bg-[#0a0a0d]/60 border border-zinc-800/70 opacity-75">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-xl bg-zinc-900 flex items-center justify-center text-zinc-400">
+                            <i class="fa-solid fa-flag text-xs"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-extrabold text-zinc-300 block">54,0 kg (Ponto de Partida)</span>
+                            <span class="text-[10px] text-zinc-500">Peso inicial cadastrado (1,71m)</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            listEl.innerHTML = html;
+        }
+
+        // Gráfico SVG Responsivo Ascendente (54,0 kg -> 68,0 kg)
+        function renderPureSvgChart(stats) {
+            const wrapper = document.getElementById('svg-chart-wrapper');
+            const W = 360;
+            const H = 180;
+            const padL = 38;
+            const padR = 18;
+            const padT = 20;
+            const padB = 26;
+
+            const points = [{ label: 'Início', weight: USER_PROFILE.startWeight, isFuture: false }];
+
+            stats.sortedWeighIns.forEach(w => {
+                const d = new Date(w.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+                points.push({ label: d, weight: w.weight, isFuture: false });
+            });
+
+            const lastPt = points[points.length - 1];
+            if (Math.abs(lastPt.weight - stats.currentWeight) >= 0.05) {
+                points.push({ label: 'Hoje', weight: stats.currentWeight, isFuture: false });
+            }
+
+            // Projeção futura ascendente até 68,0 kg
+            if (stats.currentWeight < USER_PROFILE.targetWeight) {
+                const midWeight = (stats.currentWeight + USER_PROFILE.targetWeight) / 2;
+                points.push({ label: 'Meio', weight: midWeight, isFuture: true });
+                points.push({ label: 'Meta', weight: USER_PROFILE.targetWeight, isFuture: true });
+            }
+
+            const minW = Math.min(52, Math.floor(Math.min(...points.map(p => p.weight)) - 1));
+            const maxW = Math.max(70, Math.ceil(Math.max(...points.map(p => p.weight)) + 1));
+
+            const plotW = W - padL - padR;
+            const plotH = H - padT - padB;
+
+            const getX = (index) => padL + (index / Math.max(1, points.length - 1)) * plotW;
+            const getY = (weight) => padT + ((maxW - weight) / (maxW - minW)) * plotH;
+
+            const goalY = getY(USER_PROFILE.targetWeight);
+
+            const realPoints = points.filter(p => !p.isFuture);
+            const realCoords = realPoints.map((p, i) => `${getX(i).toFixed(1)},${getY(p.weight).toFixed(1)}`);
+
+            let futurePath = '';
+            if (points.some(p => p.isFuture)) {
+                const startIdx = realPoints.length - 1;
+                const futureCoords = points.slice(startIdx).map((p, i) => `${getX(startIdx + i).toFixed(1)},${getY(p.weight).toFixed(1)}`);
+                futurePath = `<polyline fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-dasharray="4,4" points="${futureCoords.join(' ')}" />`;
+            }
+
+            let circlesSvg = '';
+            points.forEach((p, idx) => {
+                const cx = getX(idx);
+                const cy = getY(p.weight);
+                const fill = p.isFuture ? '#15151d' : '#ff5500';
+                const stroke = p.isFuture ? '#8b5cf6' : '#ffffff';
+
+                circlesSvg += `
+                    <circle cx="${cx}" cy="${cy}" r="4.2" fill="${fill}" stroke="${stroke}" stroke-width="2" />
+                    <text x="${cx}" y="${cy - 8}" text-anchor="middle" font-size="9" font-weight="800" fill="#f4f4f6">
+                        ${p.weight.toFixed(1).replace('.', ',')}
+                    </text>
+                    <text x="${cx}" y="${H - 6}" text-anchor="middle" font-size="8.5" font-weight="600" fill="#71717a">
+                        ${p.label}
+                    </text>
+                `;
+            });
+
+            wrapper.innerHTML = `
+                <svg viewBox="0 0 ${W} ${H}" class="w-full h-auto block">
+                    <!-- Linhas de referência -->
+                    <line x1="${padL}" y1="${getY(55)}" x2="${W - padR}" y2="${getY(55)}" stroke="#27272a" stroke-width="1" />
+                    <text x="${padL - 5}" y="${getY(55) + 3}" text-anchor="end" font-size="8.5" fill="#71717a">55kg</text>
+
+                    <line x1="${padL}" y1="${getY(62)}" x2="${W - padR}" y2="${getY(62)}" stroke="#27272a" stroke-width="1" />
+                    <text x="${padL - 5}" y="${getY(62) + 3}" text-anchor="end" font-size="8.5" fill="#71717a">62kg</text>
+
+                    <!-- Linha da Meta 68kg -->
+                    <line x1="${padL}" y1="${goalY}" x2="${W - padR}" y2="${goalY}" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="5,3" />
+                    <text x="${padL - 5}" y="${goalY + 3}" text-anchor="end" font-size="8.5" font-weight="800" fill="#a78bfa">68kg</text>
+
+                    <!-- Curva Real -->
+                    <polyline fill="none" stroke="#ff5500" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="${realCoords.join(' ')}" />
+
+                    <!-- Curva Projetada -->
+                    ${futurePath}
+
+                    <!-- Pontos -->
+                    ${circlesSvg}
+                </svg>
+            `;
+        }
+
+        // =========================================================================
+        // 6. ABA HISTÓRICO DE TREINOS
+        // =========================================================================
+        function renderHistoryTab(stats) {
+            document.getElementById('hist-total-workouts').textContent = stats.totalWorkouts;
+            document.getElementById('hist-protein-goal').textContent = `${stats.proteinAvg}g`;
+            document.getElementById('hist-water-goal').textContent = `${stats.waterLiters}L`;
+
+            const listEl = document.getElementById('workouts-history-list');
+            const entries = Object.values(state.completedWorkouts).reverse();
+
+            if (entries.length === 0) {
+                listEl.innerHTML = `
+                    <div class="text-center py-6 px-3 bg-[#0a0a0d] rounded-2xl border border-dashed border-zinc-800">
+                        <i class="fa-solid fa-dumbbell text-2xl text-[#ff5500] mb-2"></i>
+                        <p class="text-xs font-extrabold text-zinc-200">Nenhum treino registrado ainda</p>
+                        <p class="text-[11px] text-zinc-400 mt-0.5">Acesse a aba Treino e finalize sua primeira sessão de força!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            listEl.innerHTML = entries.map(w => {
+                const d = new Date(w.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+                const exCount = Array.isArray(w.exercisesList) ? w.exercisesList.length : 0;
+                const exSummary = exCount > 0 ? `${exCount} exercícios realizados` : 'Treino completo';
+
+                return `
+                    <div class="p-3.5 rounded-2xl bg-[#0a0a0d] border border-zinc-800 space-y-2">
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-[#ff5500] to-wine-800 text-white flex items-center justify-center text-xs shrink-0">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-black text-white">Semana ${w.week} • ${w.dayFull}</p>
+                                    <p class="text-[11px] font-semibold text-orange-400">${w.title}</p>
+                                </div>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 block">${w.focusTag || 'Força'}</span>
+                                <span class="text-[10px] text-zinc-500 mt-0.5 block">${d}</span>
+                            </div>
+                        </div>
+                        <p class="text-[11px] text-zinc-400 pl-11">
+                            <i class="fa-solid fa-list-check text-zinc-500 mr-1"></i>${exSummary}
+                        </p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // =========================================================================
+        // 7. AÇÕES INTERATIVAS
+        // =========================================================================
+        function handleQuickWeightSave(event) {
+            event.preventDefault();
+            const input = document.getElementById('quick-weight-input');
+            const normalized = input.value.replace(',', '.').trim();
+            const weightVal = parseFloat(normalized);
+
+            if (isNaN(weightVal) || weightVal < 40 || weightVal > 160) {
+                showToast('Valor inválido', 'Digite um peso válido entre 40 kg e 160 kg.');
+                return;
+            }
+
+            state.weighIns.push({
+                id: Date.now().toString(),
+                date: new Date().toISOString(),
+                weight: Number(weightVal.toFixed(1))
+            });
+
+            input.value = '';
+            input.blur();
+            saveState();
+            renderAll();
+
+            if (weightVal >= USER_PROFILE.targetWeight) {
+                triggerConfetti();
+                showToast('META DE 68KG BATIDA! 🏆', 'Parabéns! Você conquistou os +14 kg de evolução!');
+            } else {
+                const gained = (weightVal - USER_PROFILE.startWeight).toFixed(1).replace('.', ',');
+                const sign = weightVal >= USER_PROFILE.startWeight ? '+' : '';
+                showToast('Peso Atualizado! ⚡', `${weightVal.toFixed(1).replace('.', ',')} kg salvos (${sign}${gained} kg desde o início).`);
+            }
+        }
+
+        function deleteWeighIn(id) {
+            state.weighIns = state.weighIns.filter(w => w.id !== id);
+            saveState();
+            renderAll();
+            showToast('Registro removido', 'O gráfico e a previsão de meta foram recalculados.');
+        }
+
+        function changeWeek(delta) {
+            const target = state.selectedWeek + delta;
+            if (target >= 1 && target <= 40) {
+                state.selectedWeek = target;
+                saveState();
+                renderWorkoutTab();
+            }
+        }
+
+        function toggleExerciseCheck(exKey) {
+            state.checkedExercises[exKey] = !state.checkedExercises[exKey];
+            saveState();
+            renderWorkoutTab();
+        }
+
+        function toggleDayWorkoutComplete() {
+            const week = state.selectedWeek;
+            const day = state.selectedDay;
+            const key = `w${week}-d${day}`;
+            const workout = getWorkoutData(week, day);
+
+            if (state.completedWorkouts[key]) {
+                delete state.completedWorkouts[key];
+                showToast('Treino desmarcado', 'Registro removido do histórico.');
+            } else {
+                state.completedWorkouts[key] = {
+                    date: new Date().toISOString(),
+                    title: workout.title,
+                    focusTag: workout.focusTag,
+                    week: week,
+                    dayFull: DAYS[day].full,
+                    exercisesList: workout.exercises.map(e => e.name)
+                };
+
+                workout.exercises.forEach((_, idx) => {
+                    state.checkedExercises[`${key}-e${idx}`] = true;
+                });
+
+                triggerConfetti();
+                showToast('Treino Concluído! 🔥', 'Estímulo anabólico registrado e sincronizado na nuvem!');
+            }
+
+            saveState();
+            renderAll();
+        }
+
+        function switchTab(tabName) {
+            state.activeTab = tabName;
+
+            const tabs = ['treino', 'peso', 'historico'];
+            tabs.forEach(t => {
+                const section = document.getElementById(`tab-${t}`);
+                const btn = document.getElementById(`nav-btn-${t}`);
+
+                if (t === tabName) {
+                    section.classList.remove('hidden');
+                    btn.className = 'flex flex-col items-center justify-center gap-1 text-[#ff5500] font-black transition cursor-pointer';
+                } else {
+                    section.classList.add('hidden');
+                    btn.className = 'flex flex-col items-center justify-center gap-1 text-zinc-500 hover:text-zinc-300 font-semibold transition cursor-pointer';
+                }
+            });
+
+            if (tabName === 'peso') {
+                renderWeightTab(computeStats());
+            }
+        }
+
+        function openResetModal() {
+            document.getElementById('reset-modal').classList.remove('hidden');
+        }
+
+        function closeResetModal() {
+            document.getElementById('reset-modal').classList.add('hidden');
+        }
+
+        function confirmResetAll() {
+            localStorage.removeItem(STORAGE_KEY);
+            state = {
+                activeTab: 'treino',
+                startDate: new Date().toISOString(),
+                selectedWeek: 1,
+                selectedDay: getDefaultDay(),
+                weighIns: [],
+                completedWorkouts: {},
+                checkedExercises: {}
+            };
+            saveState();
+            closeResetModal();
+            switchTab('treino');
+            renderAll();
+            showToast('Plano Reiniciado', 'Seu peso voltou para 54,0 kg na nuvem.');
+        }
+
+        // =========================================================================
+        // 8. TOAST E CONFETTI
+        // =========================================================================
+        let toastTimer = null;
+        function showToast(title, desc) {
+            const box = document.getElementById('toast-box');
+            document.getElementById('toast-title').textContent = title;
+            document.getElementById('toast-desc').textContent = desc;
+
+            box.classList.remove('hidden');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                box.classList.add('hidden');
+            }, 3600);
+        }
+
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 55,
+                    spread: 55,
+                    origin: { y: 0.75 },
+                    colors: ['#ff5500', '#8b5cf6', '#7f1d1d', '#ffffff']
+                });
+            }
+        }
+
+        window.handleQuickWeightSave = handleQuickWeightSave;
+        window.deleteWeighIn = deleteWeighIn;
+        window.changeWeek = changeWeek;
+        window.toggleExerciseCheck = toggleExerciseCheck;
+        window.toggleDayWorkoutComplete = toggleDayWorkoutComplete;
+        window.switchTab = switchTab;
+        window.openResetModal = openResetModal;
+        window.closeResetModal = closeResetModal;
+        window.confirmResetAll = confirmResetAll;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initRealtimeSync();
+        });
+    </script>
+</body>
+</html>
